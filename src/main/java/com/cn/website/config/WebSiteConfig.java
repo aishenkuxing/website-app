@@ -259,7 +259,7 @@ public class WebSiteConfig extends WebMvcConfigurerAdapter {
 		 /**
 		  * 添加默认资源跳转路径
 		  */
-		 registry.addResourceHandler("/**").addResourceLocations(env.getProperty("application.resources")).setCachePeriod(31556926);
+		// registry.addResourceHandler("/**").addResourceLocations(env.getProperty("application.resources")).setCachePeriod(31556926);
 		// registry.addResourceHandler("/swagger/**.html").addResourceLocations("/WEB-INF/swagger/").setCachePeriod(31556926);
 		 
 		 

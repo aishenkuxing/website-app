@@ -11,7 +11,7 @@
 		<meta name="description" content="网站后台管理系统。">
 	    <title>首页</title>
 	    <link rel="stylesheet" href="/resources/plugs/layui/css/layui.css">
-	    <link rel="stylesheet" href="/resources/common/css/sccl.css">
+	    <link rel="stylesheet" href="/resources/homestyle/sccl.css">
         <link rel="stylesheet" href="/resources/iconfont/1.0.2/iconfont.css">
     </head>
     <body class="login-bg">
