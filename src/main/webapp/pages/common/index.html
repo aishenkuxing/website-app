@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="../../resources/styles/common/main.css" /> 
+<link rel="stylesheet" href="../../resources/styles/common/jquery.jOrgChart.css" />
+<link rel="stylesheet" href="../../resources/styles/common/org.css" />
+
+<script src="../../resources/scripts/require.js"></script>
+<script src="../../resources/scripts/common.js"></script>
+<script  src="../../resources/scripts/pages/index.js" ></script>
+<title>拖拽例子</title>
+</head>
+<body>
+  <div class="org-container com-container" style="">
+        <div class="pannel-container modal-org-guide" ms-controller="orgdialog">
+            <div class="build-tree-head">
+                <span class="r">
+                    <!-- .up 放大   .down 缩小  .disable 不可用  -->
+                    <a href="javascript:;" class="btn-scale up disable"></a><a href="javascript:;" class="btn-scale down"></a>
+                </span>
+            </div>
+            <div class="build-tree-canvas free dragscroll" align="center" style="margin: auto; ">
+                <!-- 组织树架构树 代码 -->
+                <div class="container" style="cursor: url('http://rwork.99.com/Theme/default/org/img/fist16x16.ico?ver=20160601'),auto; ">
+                    <div id="chart" class="orgChart" align="center">
+                        <ul id="org" style="display:none"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="cursor: url('http://rwork.99.com/Theme/default/org/img/fist16x16.ico?ver=20160601'),auto; display: none;"></div>
+        <div class="build-tree-foot" style="display:none;">
+            <a href="javascript:void(0);" class="ui-btn" id="cancle-model">取消</a>
+            <a href="javascript:void(0);" class="ui-btn" data-view="style1" id="saveCommit">确定</a>
+        </div>
+   </div>
+</body>
+</html>

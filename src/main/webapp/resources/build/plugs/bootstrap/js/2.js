@@ -1,0 +1,1 @@
+function aa(){return 3}console.log(aa());

@@ -1,0 +1,1 @@
+define(["require","jquery","text!modules/toast/toast.html","css!modules/toast/toast.css"],function(require,$,t){return{show:function(e,s){var o=$(t);o.find(".ql_message").html(e),$("body").append(o);var a=100,n=setInterval(function(){a<=0&&(o.remove(),clearInterval(n)),o.css({opacity:a/10}),a--},20)}}});
