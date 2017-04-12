@@ -126,7 +126,7 @@ public class WebSiteConfig extends WebMvcConfigurerAdapter {
 	 @Override
 	 public void addViewControllers(ViewControllerRegistry registry) {
 		 //如果当前路径为'/',则自动跳转到 home/index
-		 registry.addViewController("/").setViewName("/swagger/");
+		 registry.addViewController("/").setViewName("/swagger/index");
 		// registry.addViewController("/**").setViewName("home/index");
 	 }
 	 /**
@@ -246,7 +246,7 @@ public class WebSiteConfig extends WebMvcConfigurerAdapter {
 	 @Override
 	 public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		 System.out.println("当前版本号:"+env.getProperty("application.version"));
-		 
+		
 		 /**
 		  * setCachePeriod 设置过期时间为1年 毫秒为单位
 		  * <mvc:resources mapping="/resources/**" location="/WEB-INF/resources/"/>
@@ -256,7 +256,12 @@ public class WebSiteConfig extends WebMvcConfigurerAdapter {
 		 registry.addResourceHandler("/resources/**").addResourceLocations(env.getProperty("application.resources")).setCachePeriod(31556926);
 		 
 		 registry.addResourceHandler("/swagger/**").addResourceLocations(env.getProperty("application.swagger")).setCachePeriod(31556926);
+		 /**
+		  * 添加默认资源跳转路径
+		  */
+		 registry.addResourceHandler("/**").addResourceLocations(env.getProperty("application.resources")).setCachePeriod(31556926);
 		// registry.addResourceHandler("/swagger/**.html").addResourceLocations("/WEB-INF/swagger/").setCachePeriod(31556926);
+		 
 		 
 		 /**
 		  * 设置平台信息

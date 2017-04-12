@@ -15,6 +15,6 @@ public class SwaggerController {
 	
 	@RequestMapping("index")
 	public void index(){
-		//System.out.println(111);
+		System.out.println(111);
 	}
 }
