@@ -23,6 +23,7 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import com.cn.website.common.auth.WebSiteAnnotation;
 import com.cn.website.config.DynamicDataSource;
 
+
 @Configuration
 @PropertySources(value = { @PropertySource(value = { "classpath:configs/hibernate/hibernate.properties" }) })
 @WebSiteAnnotation.WebEntityScan({
@@ -65,34 +66,8 @@ public class HibernateConfig {
 //		return map;
 //	}
 	
-	/**
-	 * 配置主连接变量
-	 * @return
-	 */
-	@Bean(name="dataSource")
-	public DataSource dataSource(){
-		url = env.getProperty("hibernate.connection.url");
-		
-		username = env.getProperty("hibernate.connection.username");
-		
-		password = env.getProperty("hibernate.connection.password");
-		
-		driver =env.getProperty("hibernate.connection.driver_class");
-		
-		DriverManagerDataSource dataSource = new DriverManagerDataSource(url, username, password);
-		
-		
-		dataSource.setDriverClassName(driver);
-		
-		
-//		synchronized (dataSource) {
-//			
-//		}
-		return dataSource;
-	}
-	
 	/***
-	 * 测试集合连接数据库啊集合
+	 * 测试集群 连接数据库 集合
 	 * @return
 	 */
 	@Bean(name="dataSourceTest")

@@ -28,6 +28,11 @@ public  class WebSiteAnnotation {
 		TransactionType value() default TransactionType.Get;
 	}
 
+	/**
+	 * 配置hibernate加载的bean对象
+	 * @author Administrator
+	 *
+	 */
 	@Documented
 	@Inherited
 	@Target({ElementType.METHOD, ElementType.TYPE})
