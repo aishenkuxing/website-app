@@ -21,10 +21,12 @@ import com.cn.website.common.bean.ComUserInfo;
 import com.cn.website.common.dao.UserCenterDao;
 import com.cn.website.common.entity.Student;
 import com.cn.website.common.service.HomeService;
+import com.cn.website.user.bean.UserInfo;
+import com.cn.website.user.dao.UserInfoDAO;
 
 @Service("homeServiceImpl")
 @Transactional
-@Scope(value = "prototype", proxyMode = ScopedProxyMode.DEFAULT)
+//@Scope(value = "prototype", proxyMode = ScopedProxyMode.DEFAULT)
 public class HomeServiceImpl implements HomeService {
 
 	@Autowired(required=true)
@@ -33,6 +35,9 @@ public class HomeServiceImpl implements HomeService {
 	@Autowired
 	@Qualifier("userCenterDaoImpl")
 	private UserCenterDao userCenterDaoImpl;
+	
+	@Autowired
+	private UserInfoDAO userInfoDAO;
 	
 //	@Autowired(required=true)
 //	@Qualifier("sessionFactory")
@@ -74,5 +79,11 @@ public class HomeServiceImpl implements HomeService {
 	public List<ComUserInfo> getUserInfoList(ComUserInfo info){
 		 return userCenterDaoImpl.getUserInfoList(info);
 	 }
-
+	
+	
+	@Override
+	public UserInfo checkUser(String username,String password){
+		UserInfo userInfo = userInfoDAO.getUser(username, password);
+    	return userInfo;
+	}
 }

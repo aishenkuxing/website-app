@@ -23,7 +23,7 @@ public class UserInfo {
 	
 	private String email;
 	
-	@Column(name="companyid")
+	@Column(name="company_id")
 	private int companyId;
 
 	public long getId() {

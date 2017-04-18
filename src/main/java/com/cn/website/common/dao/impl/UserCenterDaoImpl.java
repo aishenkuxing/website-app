@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.cn.website.common.bean.ComUserInfo;
 import com.cn.website.common.dao.UserCenterDao;
+import com.cn.website.user.bean.UserInfo;
 
 @Repository("userCenterDaoImpl")
 public class UserCenterDaoImpl extends BaseDaoSupportImpl  implements UserCenterDao  {
@@ -44,6 +45,14 @@ public class UserCenterDaoImpl extends BaseDaoSupportImpl  implements UserCenter
 		return results;
 	}
 	
-	
+
+	@Override
+	public UserInfo getUser(String username,String password) {
+		Session session = currentSession();
+		UserInfo info =  session.createQuery("select * from user_info where username = :username and  password = :password ",UserInfo.class)
+				.setParameter( "username", username )
+				.setParameter( "password", password ).getSingleResult();
+		return info;
+	}
 	
 }

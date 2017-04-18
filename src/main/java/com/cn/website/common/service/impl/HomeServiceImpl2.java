@@ -21,6 +21,7 @@ import com.cn.website.common.bean.ComUserInfo;
 import com.cn.website.common.dao.UserCenterDao;
 import com.cn.website.common.entity.Student;
 import com.cn.website.common.service.HomeService;
+import com.cn.website.user.bean.UserInfo;
 
 @Transactional
 @Scope(value = "prototype", proxyMode = ScopedProxyMode.DEFAULT)
@@ -57,5 +58,11 @@ public class HomeServiceImpl2 implements HomeService {
 		System.out.println("李赊借");
 		 return userCenterDaoImpl.getUserInfoList(info);
 	 }
+
+	@Override
+	public UserInfo checkUser(String username, String password) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

@@ -2,9 +2,11 @@ package com.cn.website.user.api.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.FormParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cn.website.common.entity.MessageObject;
@@ -25,7 +27,7 @@ public class UserController {
 	 @ApiOperation(value = "校验密码登入", httpMethod = "GET",
 	   	notes = "校验密码登入",tags="获取用户")
 	 
-	public MessageObject<Long> checkUser(String username, String password,HttpServletRequest request,HttpServletResponse response){
+	public MessageObject<Long> checkUser(@RequestParam String username,@RequestParam String password,HttpServletRequest request,HttpServletResponse response){
 		 
 		 username = Endecrypt.getSiteEncrypt(username);
 		 password = Endecrypt.getSiteEncrypt(password);
@@ -39,6 +41,8 @@ public class UserController {
 		     cookie.setMaxAge(60*60*24*7);//保留7天  
 		     response.addCookie(cookie);  */
 		 }
+		 System.out.println(username);
+		 System.out.println(password);
 		 return mo;
 	};
 }
