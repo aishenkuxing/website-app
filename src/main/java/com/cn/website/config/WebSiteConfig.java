@@ -56,6 +56,8 @@ import com.cn.website.namegenerator.WebSiteNameGenerator;
 	"com.cn.website.*.api.controller",
 	"com.cn.website.*.service.impl",
 	"com.cn.website.*.dao.impl",
+	"com.cn.website.*.service",
+	"com.cn.website.*.dao",
 	"com.cn.website.aspect",
 	"com.cn.website.interceptor"
 },nameGenerator = WebSiteNameGenerator.class)

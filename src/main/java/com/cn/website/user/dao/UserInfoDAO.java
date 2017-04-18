@@ -1,7 +1,7 @@
-package com.cn.website.common.dao.user;
+package com.cn.website.user.dao;
 
-import com.cn.website.common.bean.user.Userinfo;
 import com.cn.website.common.dao.BaseDaoSupport;
+import com.cn.website.user.bean.UserInfo;
 /**
  * 获取用户信息对象
  * @author huangjiacheng
@@ -9,5 +9,5 @@ import com.cn.website.common.dao.BaseDaoSupport;
  */
 public interface UserInfoDAO extends BaseDaoSupport {
 	
-	public Userinfo getUser(String username,String password);
+	public UserInfo getUser(String username,String password);
 }

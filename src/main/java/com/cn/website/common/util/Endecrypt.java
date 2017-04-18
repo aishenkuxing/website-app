@@ -24,7 +24,10 @@ import sun.misc.BASE64Encoder;
  */
 
 public class Endecrypt {
-
+	/**
+	 * 加密串
+	 */
+	private static final String webKey="42Wx8VeG56VUXJmaZTp1XA%3D%3D";
 	/**
 	 * 进行MD5加密
 	 * 
@@ -276,10 +279,7 @@ public class Endecrypt {
 		return requestValue;
 	}
 	
-	/**
-	 * 加密密钥
-	 */
-	private static final String webKey="42Wx8VeG56VUXJmaZTp1XA%3D%3D";
+	
 	/**
 	 * 站点加密算法
 	 * @return

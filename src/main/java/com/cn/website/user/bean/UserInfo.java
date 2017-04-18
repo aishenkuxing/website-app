@@ -1,4 +1,4 @@
-package com.cn.website.common.bean.user;
+package com.cn.website.user.bean;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,7 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity(name="user_info")
-public class Userinfo {
+public class UserInfo {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

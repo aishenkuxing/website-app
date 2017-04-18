@@ -6,9 +6,9 @@ package com.cn.website.common.entity;
  * @since
  */
 public class MessageNotice {
-    private Integer code;
-    private String message;
-    private String errorMessage;
+    protected Integer code;
+    protected String message;
+    protected String errorMessage;
     public MessageNotice(){
     	
     }
