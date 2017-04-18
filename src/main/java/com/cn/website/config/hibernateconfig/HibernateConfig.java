@@ -27,7 +27,8 @@ import com.cn.website.config.DynamicDataSource;
 @Configuration
 @PropertySources(value = { @PropertySource(value = { "classpath:configs/hibernate/hibernate.properties" }) })
 @WebSiteAnnotation.WebEntityScan({
-	"com.cn.*.common.bean"
+	"com.cn.*.common.bean",
+	"com.cn.*.common.bean.*"
 	})
 public class HibernateConfig {
 	

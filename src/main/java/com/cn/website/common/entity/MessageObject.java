@@ -8,6 +8,17 @@ package com.cn.website.common.entity;
 public class MessageObject<T> extends  MessageNotice{
    
 	private T data;
+	
+	private int count;
+	
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
 
 	public T getData() {
 		return data;

@@ -15,7 +15,7 @@ import javax.persistence.Table;
  *
  */
 @Entity(name="com_userinfo")
-public class UserInfo {
+public class ComUserInfo {
 
 	/**
 	 * id 

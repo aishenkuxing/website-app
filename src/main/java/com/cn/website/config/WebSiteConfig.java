@@ -82,10 +82,10 @@ public class WebSiteConfig extends WebMvcConfigurerAdapter {
 	 public void addCorsMappings(CorsRegistry registry) {
 		 registry.addMapping("/api/**")
 		 //.allowedOrigins("http://domain2.com")
-		 .allowedMethods("PUT", "DELETE","GET","POST")
+		 .allowedMethods("PUT", "DELETE","GET","POST");
 //		 .allowedHeaders("header1", "header2", "header3")
 //		 .exposedHeaders("header1", "header2")
-		 .allowCredentials(false).maxAge(3600);
+		 //.allowCredentials(false).maxAge(3600);
 	 }
 	 /**
 	  * 配置后缀名 渲染不同 头部信息

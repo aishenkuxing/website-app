@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cn.website.common.auth.TransactionAuth;
 import com.cn.website.common.auth.annotation.TransactionType;
-import com.cn.website.common.bean.UserInfo;
+import com.cn.website.common.bean.ComUserInfo;
 import com.cn.website.common.dao.UserCenterDao;
 import com.cn.website.common.entity.Student;
 import com.cn.website.common.service.HomeService;
@@ -56,7 +56,7 @@ public class HomeServiceImpl implements HomeService {
 	
 	@Override
 	public String getVersion() {
-		UserInfo userInfo= new UserInfo();
+		ComUserInfo userInfo= new ComUserInfo();
 		userInfo.setName("李连杰");
 		userInfo.setUserName("lilianjie");
 		userInfo.setPassword("12345611");
@@ -66,12 +66,12 @@ public class HomeServiceImpl implements HomeService {
 	}
 
 	@Override
-	public UserInfo getUserInfo(long id) {
+	public ComUserInfo getUserInfo(long id) {
 		return userCenterDaoImpl.get(id);
 	}
 	
 	@Override
-	public List<UserInfo> getUserInfoList(UserInfo info){
+	public List<ComUserInfo> getUserInfoList(ComUserInfo info){
 		 return userCenterDaoImpl.getUserInfoList(info);
 	 }
 

@@ -45,12 +45,12 @@
     <httpclient-version>4.5.2</httpclient-version>
     <website-base-version>0.0.1-SNAPSHOT</website-base-version>
   </properties>
-  <repositories>
+<!--   <repositories>
     <repository>
     	<id>Maven Central</id>
     	<url>http://central.maven.org/maven2</url>
     </repository>
-  </repositories>
+  </repositories> -->
   
    <dependencies>
   	<dependency>
@@ -111,11 +111,11 @@
 			<version>${spring-version}</version>
 		</dependency>
 		
-		<dependency>
+<!-- 		<dependency>
 		    <groupId>org.springframework.data</groupId>
 		    <artifactId>spring-data-redis</artifactId>
 		    <version>2.0.0.M1</version>
-		</dependency>
+		</dependency> -->
 		
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -270,7 +270,7 @@
 		<dependency>
 			<groupId>jdk.tools</groupId>
 		    <artifactId>jdk.tools</artifactId>
-		    <version>1.8.0_92</version>
+		    <version>jdk1.8.0_121</version>
 		    <scope>system</scope>
 		    <systemPath>${JAVA_HOME}/lib/tools.jar</systemPath>
 	    </dependency>

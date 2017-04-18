@@ -19,7 +19,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 
-import com.cn.website.common.bean.UserInfo;
+import com.cn.website.common.bean.ComUserInfo;
 import com.cn.website.common.entity.MessageObject;
 import com.cn.website.common.util.ClassScaner;
 import com.cn.website.config.WebSiteConfig;

@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cn.website.common.auth.PermissionAuth;
 import com.cn.website.common.auth.annotation.PermissionType;
-import com.cn.website.common.bean.UserInfo;
+import com.cn.website.common.bean.ComUserInfo;
 import com.cn.website.common.entity.MessageNotice;
 import com.cn.website.common.entity.MessageObject;
 import com.cn.website.common.service.HomeService;
@@ -74,8 +74,8 @@ public class CommonApiController {
    @RequestMapping("getUserInfo")
    @ApiOperation(value = "根据id获取人员信息", httpMethod = "GET",
    	notes = "根据id获取人员信息",tags="测试组件")
-   public MessageObject<UserInfo> getUserInfo(@RequestParam(value = "id")long id,HttpServletRequest request){
-	   MessageObject<UserInfo> msg = new MessageObject<UserInfo>();
+   public MessageObject<ComUserInfo> getUserInfo(@RequestParam(value = "id")long id,HttpServletRequest request){
+	   MessageObject<ComUserInfo> msg = new MessageObject<ComUserInfo>();
 	   msg.setCode(1);
 	   msg.setData(homeServiceImpl.getUserInfo(id));
 	   return msg;
@@ -84,10 +84,10 @@ public class CommonApiController {
    @RequestMapping("getUserInfoList")
    @ApiOperation(value = "根据信息获取人员信息", httpMethod = "GET",
    	notes = "根据id获取人员信息",tags="测试组件")
-   public MessageObject<List<UserInfo>> getUserInfoList(@RequestParam(value = "id")long id,HttpServletRequest request){
-	   UserInfo info = new UserInfo();
+   public MessageObject<List<ComUserInfo>> getUserInfoList(@RequestParam(value = "id")long id,HttpServletRequest request){
+	   ComUserInfo info = new ComUserInfo();
 	   info.setId(id);
-	   MessageObject<List<UserInfo>> msg = new MessageObject<List<UserInfo>>();
+	   MessageObject<List<ComUserInfo>> msg = new MessageObject<List<ComUserInfo>>();
 	   msg.setCode(1);
 	   msg.setData(homeServiceImpl.getUserInfoList(info));
 	   return msg;

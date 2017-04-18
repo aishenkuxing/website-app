@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cn.website.common.auth.TransactionAuth;
 import com.cn.website.common.auth.annotation.TransactionType;
-import com.cn.website.common.bean.UserInfo;
+import com.cn.website.common.bean.ComUserInfo;
 import com.cn.website.common.dao.UserCenterDao;
 import com.cn.website.common.entity.Student;
 import com.cn.website.common.service.HomeService;
@@ -47,13 +47,13 @@ public class HomeServiceImpl2 implements HomeService {
 	}
 
 	@Override
-	public UserInfo getUserInfo(long id) {
+	public ComUserInfo getUserInfo(long id) {
 		System.out.println("李赊借");
 		return userCenterDaoImpl.get(id);
 	}
 	
 	@Override
-	public List<UserInfo> getUserInfoList(UserInfo info){
+	public List<ComUserInfo> getUserInfoList(ComUserInfo info){
 		System.out.println("李赊借");
 		 return userCenterDaoImpl.getUserInfoList(info);
 	 }
