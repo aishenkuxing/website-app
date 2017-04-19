@@ -55,17 +55,7 @@ public class HibernateConfig {
 //		txManager.setDataSource(dataSource);
 //		return txManager;
 //	}
-	/**
-	 * 设置数据源集合
-	 * @return
-	 */
-//	@Bean(name="targetDataSources")
-//	public Map<Object, Object> targetDataSources(){
-//		Map<Object, Object> map= new HashMap<Object, Object>();
-//		map.put("dataSource1", "dataSource1");
-//		map.put("dataSource", "dataSource");
-//		return map;
-//	}
+
 	
 	/***
 	 * 测试集群 连接数据库 集合
@@ -95,30 +85,6 @@ public class HibernateConfig {
 		dataSource.setDriverClassName(driver);
 
 		return dataSource;
-	}
-	
-	
-	/***
-	 * 设置动态数据源
-	 * @param dataSource 默认入口
-	 * @param targetDataSources 入口连接 集合
-	 * @return
-	 */
-	@Bean(name = "dynamicDataSource")
-	@Resource
-	public DynamicDataSource dynamicDataSource(DataSource dataSource,DataSource dataSourceTest){
-		Map<Object, Object> dataSources= new HashMap<Object, Object>();
-		dataSources.put("dataSource", dataSource);
-		/***
-		 * 添加集合数据源 其他集合
-		 */
-		{
-			dataSources.put("dataSourceTest", dataSourceTest);
-		}
-		DynamicDataSource dynamicDataSource= new DynamicDataSource();
-		dynamicDataSource.setTargetDataSources(dataSources);
-		dynamicDataSource.setDefaultTargetDataSource(dataSource);
-		return dynamicDataSource;
 	}
 	
 	@Bean(name="hibernateConfigMap")
