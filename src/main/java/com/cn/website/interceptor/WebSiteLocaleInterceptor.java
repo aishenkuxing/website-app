@@ -61,6 +61,9 @@ public class WebSiteLocaleInterceptor implements HandlerInterceptor{
 		 */
 		{
 			if(1!=1){
+				/***
+				 * 将 homeServiceImpl 注解的替换成 com.cn.website.common.service.impl.HomeServiceImpl2
+				 */
 				BeanDefinition beanDefinition=WebSiteBeanWare.beanFactory.getBeanDefinition("homeServiceImpl");
 				
 				beanDefinition.setBeanClassName("com.cn.website.common.service.impl.HomeServiceImpl2");

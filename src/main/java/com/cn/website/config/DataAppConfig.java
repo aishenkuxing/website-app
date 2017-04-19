@@ -48,7 +48,6 @@ public class DataAppConfig {
 		
 		dataSource.setDriverClassName(driver);
 		
-		
 //		synchronized (dataSource) {
 //			
 //		}
