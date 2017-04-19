@@ -55,37 +55,6 @@ public class HibernateConfig {
 //		txManager.setDataSource(dataSource);
 //		return txManager;
 //	}
-
-	
-	/***
-	 * 测试集群 连接数据库 集合
-	 * @return
-	 */
-	@Bean(name="dataSourceTest")
-	public DataSource dataSourceTest(){
-		
-		Properties pro = new Properties();//hibernate 配置属性集合对象 
-		InputStream  inStream=this.getClass().getClassLoader().getResourceAsStream("configs/hibernate/hibernate-test.properties");
-		try {
-			pro.load(inStream);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		url = pro.getProperty("hibernate.connection.url");
-		
-		username = pro.getProperty("hibernate.connection.username");
-		
-		password = pro.getProperty("hibernate.connection.password");
-		
-		driver =pro.getProperty("hibernate.connection.driver_class");
-		
-		DriverManagerDataSource dataSource = new DriverManagerDataSource(url, username, password);
-		
-		dataSource.setDriverClassName(driver);
-
-		return dataSource;
-	}
 	
 	@Bean(name="hibernateConfigMap")
 	public Map<String, String> hibernateConfigMap(){

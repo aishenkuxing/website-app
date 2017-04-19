@@ -48,11 +48,11 @@ public class WebSiteLocaleInterceptor implements HandlerInterceptor{
 		   *  设置动态连接库
 		   */
 		{
-			if(1==1){
+			if(1!=1){
 				///主库设置
 			}else{
 				///分库设置
-				 DataSourceHolder.setDataSource("dataSourceTest");
+				 DataSourceHolder.setDataSource("dataSourceTest1");
 			}
 			
 		}
