@@ -9,6 +9,7 @@ import java.io.InputStream;
 
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
+import org.mortbay.log.Log;
 
 public class FileUtil {
 	public static String ReadFile(String path) {  
@@ -46,17 +47,12 @@ public class FileUtil {
 		return baos.toString();
 	}
 	
-	public static JSONArray readJSONArray(String path)  {
+	public static JSONArray readJSONArray(String path) throws Exception  {
 		InputStream inStream = FileUtil.class.getClassLoader().getResourceAsStream(path);
 		JSONArray jsonArr = null;
 		String dataSourcesStr;
-		try {
-			dataSourcesStr = FileUtil.inputStreamString(inStream);
-			jsonArr = new JSONArray(dataSourcesStr);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		dataSourcesStr = FileUtil.inputStreamString(inStream);
+		jsonArr = new JSONArray(dataSourcesStr);
 		return jsonArr;
 	}
 	
