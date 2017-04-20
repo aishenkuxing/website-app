@@ -86,14 +86,14 @@ public class DataAppConfig {
 	}
 
 	/***
-	 * 测试集群 连接数据库 集合
+	 * 测试集群 连接数据库 集合(作废)
 	 * 
 	 * @return
 	 */
-	protected DataSource dataSourceTest() {
+	protected DataSource userDataSource() {
 		Properties pro = new Properties();// hibernate 配置属性集合对象
 		InputStream inStream = this.getClass().getClassLoader()
-				.getResourceAsStream("configs/hibernate/hibernate-test.properties");
+				.getResourceAsStream("configs/db/hibernate-center-db.properties");
 		try {
 			pro.load(inStream);
 		} catch (IOException e) {
@@ -154,7 +154,8 @@ public class DataAppConfig {
 				comDataSources = query.getExecutableCriteria(session).list();
 				tran.commit();
 			} catch (Exception e) {
-				e.printStackTrace();
+				log.error(e.getMessage());
+				//e.printStackTrace();
 			}finally{
 				session.close();
 			}
@@ -229,7 +230,7 @@ public class DataAppConfig {
 		{
 			///添加注册数据源
 			registDataSource(dataSources);
-			dataSources.put("dataSourceTest", dataSourceTest());
+			//dataSources.put("userDataSource", userDataSource());
 		}
 		DynamicDataSource dynamicDataSource = new DynamicDataSource();
 		dynamicDataSource.setTargetDataSources(dataSources);
