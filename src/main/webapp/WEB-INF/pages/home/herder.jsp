@@ -5,7 +5,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="keywords" content="黄家成,huangjiacheng,hjc">
-		<meta name="description" content="我自信，我骄傲。">
+		<meta name="description" content="我自信，我骄傲。黄家成 blog，黄家成 网站。">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<title>游戏科技-黄家成</title>
 		<link rel="stylesheet" href="/resources/home/css/bootstrap.css">
