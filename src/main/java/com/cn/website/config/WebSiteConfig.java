@@ -8,7 +8,6 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
-import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.MediaType;
@@ -31,8 +30,6 @@ import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.velocity.VelocityViewResolver;
 import org.springframework.web.util.UrlPathHelper;
 
-import com.cn.website.advise.support.WebSiteAdvisedSupport;
-import com.cn.website.aspect.WebSiteDaoAspect;
 import com.cn.website.config.hibernateconfig.HibernateConfig;
 import com.cn.website.interceptor.WebSiteLocaleInterceptor;
 import com.cn.website.interceptor.WebSiteSecurityInterceptor;

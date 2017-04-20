@@ -1,8 +1,5 @@
 package com.cn.website.config;
 
-import java.util.Map;
-
-import javax.annotation.Resource;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
