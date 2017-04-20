@@ -26,7 +26,6 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Property;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,7 +38,6 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import com.cn.website.common.util.ClassScaner;
 import com.cn.website.common.util.FileUtil;
 import com.cn.website.config.bean.CompanyDataSource;
-import com.cn.website.user.bean.UserInfo;
 
 
 /***
@@ -128,7 +126,10 @@ public class DataAppConfig {
 		return dataSource;
 		
 	}
-	
+	/**
+	 * 添加中心库连接池设置
+	 * @param dataSources
+	 */
 	@SuppressWarnings("unchecked")
 	protected void registDataSourceByHibernate(Map<Object, Object> dataSources){
 		StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
@@ -136,9 +137,9 @@ public class DataAppConfig {
 				.build();
 		try {
 			MetadataSources metadataSources=new MetadataSources( registry );
+			
 			Set<Class<?>> setClass= ClassScaner.scan("com.cn.website.config.bean", Entity.class);
 			for (Class<?> class1 : setClass) {
-				//System.out.println(class1.getName());
 				metadataSources.addAnnotatedClass(class1);
 			}
 			Metadata metadata = metadataSources.buildMetadata();
@@ -148,15 +149,18 @@ public class DataAppConfig {
 			try {
 				Transaction tran=session.getTransaction();
 				tran.begin();
+				///查询连接池配置信息
 				DetachedCriteria query = DetachedCriteria.forClass(CompanyDataSource.class);
 				comDataSources = query.getExecutableCriteria(session).list();
-				//session.getNamedQuery("").;
 				tran.commit();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}finally{
 				session.close();
 			}
+			/**
+			 * 连接池信息添加
+			 */
 			for (CompanyDataSource companyDataSource : comDataSources) {
 				String _dbSourceName = StringUtils.trim(companyDataSource.getDbSourceName());
 				String _driver = StringUtils.trim(companyDataSource.getDbDriver());
