@@ -38,4 +38,14 @@ public class HomeController {
 		//System.out.println(111);
 	}
 	
+	@RequestMapping("header")
+	public void header(){
+		//System.out.println(111);
+	}
+	
+	@RequestMapping("footer")
+	public void footer(){
+		//System.out.println(111);
+	}
+	
 }
