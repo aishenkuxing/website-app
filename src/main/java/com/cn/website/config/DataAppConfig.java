@@ -14,6 +14,7 @@ import javax.persistence.Entity;
 import javax.sql.DataSource;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
@@ -49,7 +50,7 @@ import com.cn.website.config.bean.CompanyDataSource;
 @Configuration
 @PropertySources(value = { @PropertySource(value = { "classpath:configs/db/hibernate-center-db.properties" }) })
 public class DataAppConfig {
-	Logger log =Logger.getLogger(DataAppConfig.class);
+	private static Logger logger = LogManager.getLogger(DataAppConfig.class.getName());
 	
 	@Autowired
 	private Environment _env;
@@ -159,7 +160,6 @@ public class DataAppConfig {
 				comDataSources = query.getExecutableCriteria(session).list();
 				tran.commit();
 			} catch (Exception e) {
-				log.warn("");;
 				//e.printStackTrace();
 			}finally{
 				session.close();
@@ -180,7 +180,7 @@ public class DataAppConfig {
 			}
 		}
 		catch (Exception e) {
-			log.warn("中心库配置失败，请检查文件:"+_centerDB+" 是否配置正确");
+			logger.warn("中心库配置失败，请检查文件:"+_centerDB+" 是否配置正确");
 			// The registry would be destroyed by the SessionFactory, but we had trouble building the SessionFactory
 			// so destroy it manually.
 			StandardServiceRegistryBuilder.destroy( registry );
@@ -197,7 +197,7 @@ public class DataAppConfig {
 		try {
 			_dataSourcesJsonArr = FileUtil.readJSONArray(_subDbs);
 		} catch (Exception e1) {
-			log.warn("读取");
+			logger.warn("读取 "+_subDbs+" 文件失败！");
 		}
 		
 		for (int i = 0 ;i<_dataSourcesJsonArr.length() ;i++) {
@@ -206,11 +206,10 @@ public class DataAppConfig {
 				if(!ObjectUtils.isEmpty(jo.get("datasource-name"))) {
 					DataSource dataSource = JSONObjectToDataSource(jo);
 					dataSources.put(jo.get("datasource-name"), dataSource);
+					logger.info("添加注入   " + jo.get("datasource-name"));
 				}
-				System.out.println(jo);
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 		}
 		/**
