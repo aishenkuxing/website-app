@@ -1,9 +1,5 @@
 package com.cn.website.config;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -17,20 +13,17 @@ import org.apache.log4j.Logger;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
-import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import com.cn.website.common.util.FileUtil;
-import com.google.gson.JsonObject;
+
 
 /***
  * 
@@ -123,7 +116,7 @@ public class DataAppConfig {
 	 * 注册分库信息
 	 */
 	protected void registDataSource(Map<Object, Object> dataSources){
-		_dataSourcesJsonArr = FileUtil.readJSONArray("configs/db/datasource.json");
+		_dataSourcesJsonArr = FileUtil.readJSONArray("configs/db/datasource.properties");
 		for (int i = 0 ;i<_dataSourcesJsonArr.length() ;i++) {
 			try {
 				JSONObject jo =   _dataSourcesJsonArr.getJSONObject(i);
