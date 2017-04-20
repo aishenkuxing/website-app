@@ -46,7 +46,7 @@ import com.cn.website.config.bean.CompanyDataSource;
  *
  */
 @Configuration
-@PropertySources(value = { @PropertySource(value = { "classpath:configs/db/applicationDataSource.properties" }) })
+@PropertySources(value = { @PropertySource(value = { "classpath:configs/db/hibernate-center-db.properties" }) })
 public class DataAppConfig {
 	Logger log =Logger.getLogger(DataAppConfig.class);
 	
@@ -70,13 +70,13 @@ public class DataAppConfig {
 	 */
 	@Bean(name = "dataSource")
 	public DataSource dataSource() {
-		_url = _env.getProperty("datasource.connection.url");
+		_url = _env.getProperty("hibernate.connection.url");
 
-		_username = _env.getProperty("datasource.connection.username");
+		_username = _env.getProperty("hibernate.connection.username");
 
 		_password = _env.getProperty("datasource.connection.password");
 
-		_driver = _env.getProperty("datasource.connection.driver_class");
+		_driver = _env.getProperty("hibernate.connection.driver_class");
 
 		DriverManagerDataSource dataSource = new DriverManagerDataSource(_url, _username, _password);
 
