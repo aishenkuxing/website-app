@@ -44,7 +44,7 @@
 		<springfox-version>2.5.0</springfox-version>
 		<hadoop-version>2.7.2</hadoop-version>
 		<httpclient-version>4.5.2</httpclient-version>
-		<website-base-version>0.0.1-SNAPSHOT</website-base-version>
+		<website-app-payment-version>0.0.1-SNAPSHOT</website-app-payment-version>
 	</properties>
 	<!-- <repositories> <repository> <id>Maven Central</id> <url>http://central.maven.org/maven2</url> 
 		</repository> </repositories> -->
@@ -327,8 +327,11 @@
 		</dependency>
 
 		<!-- hadoop 包结束 -->
-		<!-- <dependency> <groupId>com.web.website</groupId> <artifactId>website-base</artifactId> 
-			<version>${website-base-version}</version> </dependency> -->
+		<dependency>
+			<groupId>com.web.website.payment</groupId>
+			<artifactId>website-app-payment</artifactId>
+			<version>${website-app-payment-version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>
