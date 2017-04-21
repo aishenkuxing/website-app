@@ -7,6 +7,7 @@
 		<meta name="keywords" content="黄家成,huangjiacheng,hjc">
 		<meta name="description" content="我自信，我骄傲。黄家成 blog，黄家成 网站。">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<link rel="icon" href="/resources/home/favicon.ico" type="image/vnd.microsoft.icon">
 		<title>游戏科技-黄家成</title>
 		<link rel="stylesheet" href="/resources/home/css/bootstrap.css">
 		<link rel="stylesheet" href="/resources/home/css/style.css">
@@ -30,8 +31,8 @@
 										<ul class="resp-tabs-list">
 											<li class="resp-tab-item" aria-controls="tab_item-1" id="tab_item-1" data-href="/home/index">我的主页</li>
 											<li class="resp-tab-item" aria-controls="tab_item-2" id="tab_item-2" data-href="/home/about">我的介绍</li>
-											<li class="resp-tab-item" aria-controls="tab_item-3" id="tab_item-3" data-href="/home/work">我的工作</li>
-											<li class="resp-tab-item" aria-controls="tab_item-4" id="tab_item-4" data-href="/home/blog">我的博客</li>
+									<!-- 		<li class="resp-tab-item" aria-controls="tab_item-3" id="tab_item-3" data-href="/home/work">我的工作</li>
+											<li class="resp-tab-item" aria-controls="tab_item-4" id="tab_item-4" data-href="/home/blog">我的博客</li> -->
 											<li class="resp-tab-item" aria-controls="tab_item-5" id="tab_item-5" data-href="/home/contact">联系我</li>
 										</ul>
 										<!--header-->
