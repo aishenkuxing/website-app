@@ -7,6 +7,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 import org.springframework.core.env.Environment;
 
+import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
@@ -24,7 +25,7 @@ public class SwaggerConfig {
 	 /**
      * Project Name
      */
-	    public static String PROJECT_NAME;
+	 //   public static String PROJECT_NAME;
 	
 
 	 /** 
@@ -38,8 +39,10 @@ public class SwaggerConfig {
 	          /**
 	      	 * 拦截的api路径
 	      	 */
+	          .apis(RequestHandlerSelectors.any())// 对所有api进行监控
 	          .paths(regex(propertyResolver.getProperty("swagger.url")))     
-	          .build().apiInfo(apiInfo()); 
+	          .build().apiInfo(apiInfo())
+	          .enable(true); 
 	                                    
 	    }
 	    

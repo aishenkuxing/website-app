@@ -124,8 +124,8 @@ public class WebSiteConfig extends WebMvcConfigurerAdapter {
 	  */
 	 @Override
 	 public void addViewControllers(ViewControllerRegistry registry) {
-		 //如果当前路径为'/',则自动跳转到 home/index
-		 registry.addViewController("/").setViewName("/swagger/index");
+		 //如果当前路径为'/',则自动跳转到 home/index  
+		 registry.addViewController("/").setViewName(env.getProperty("application.index"));
 		// registry.addViewController("/**").setViewName("home/index");
 	 }
 	 /**

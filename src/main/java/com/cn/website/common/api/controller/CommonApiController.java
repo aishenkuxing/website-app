@@ -75,8 +75,7 @@ public class CommonApiController {
    }
    
    @RequestMapping("getUserInfo")
-   @ApiOperation(value = "根据id获取人员信息", httpMethod = "GET",
-   	notes = "根据id获取人员信息",tags="测试组件")
+   @ApiOperation(value = "根据id获取人员信息", httpMethod = "GET",notes = "根据id获取人员信息",tags="测试组件")
    public MessageObject<ComUserInfo> getUserInfo(@RequestParam(value = "id")long id,HttpServletRequest request){
 	   MessageObject<ComUserInfo> msg = new MessageObject<ComUserInfo>();
 	   msg.setCode(1);
@@ -85,8 +84,7 @@ public class CommonApiController {
    }
    
    @RequestMapping("getUserInfoList")
-   @ApiOperation(value = "根据信息获取人员信息", httpMethod = "GET",
-   	notes = "根据id获取人员信息",tags="测试组件")
+   @ApiOperation(value = "根据信息获取人员信息", httpMethod = "GET",notes = "根据id获取人员信息",tags="测试组件")
    public MessageObject<List<ComUserInfo>> getUserInfoList(@RequestParam(value = "id")long id,HttpServletRequest request){
 	   ComUserInfo info = new ComUserInfo();
 	   info.setId(id);
@@ -97,9 +95,7 @@ public class CommonApiController {
    }
    
 	 @RequestMapping("checkUser")
-	 @ApiOperation(value = "校验密码登入", httpMethod = "GET",
-	   	notes = "校验密码登入",tags="获取用户")
-	 
+	 @ApiOperation(value = "校验密码登入", httpMethod = "GET",notes = "校验密码登入",tags="获取用户")
 	public MessageObject<JsonObject> checkUser(@RequestParam String username,@RequestParam String password,HttpServletRequest request,HttpServletResponse response){
 		 JsonObject json = new JsonObject();
 		 json.addProperty("username", username);

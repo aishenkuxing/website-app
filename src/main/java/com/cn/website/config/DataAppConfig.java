@@ -14,6 +14,7 @@ import javax.persistence.Entity;
 import javax.sql.DataSource;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
@@ -34,6 +35,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.util.ObjectUtils;
 
 import com.cn.website.common.util.ClassScaner;
 import com.cn.website.common.util.FileUtil;
@@ -48,7 +50,7 @@ import com.cn.website.config.bean.CompanyDataSource;
 @Configuration
 @PropertySources(value = { @PropertySource(value = { "classpath:configs/db/hibernate-center-db.properties" }) })
 public class DataAppConfig {
-	Logger log =Logger.getLogger(DataAppConfig.class);
+	private static Logger logger = LogManager.getLogger(DataAppConfig.class.getName());
 	
 	@Autowired
 	private Environment _env;
@@ -62,6 +64,10 @@ public class DataAppConfig {
 	private String _driver;
 
 	private JSONArray _dataSourcesJsonArr;
+	
+	private String _centerDB = "configs/db/hibernate-center-db.properties"; 
+	
+	private String _subDbs = "configs/db/datasource.properties";
 
 	/**
 	 * 配置主连接变量
@@ -93,7 +99,7 @@ public class DataAppConfig {
 	protected DataSource userDataSource() {
 		Properties pro = new Properties();// hibernate 配置属性集合对象
 		InputStream inStream = this.getClass().getClassLoader()
-				.getResourceAsStream("configs/db/hibernate-center-db.properties");
+				.getResourceAsStream(_centerDB);
 		try {
 			pro.load(inStream);
 		} catch (IOException e) {
@@ -133,7 +139,7 @@ public class DataAppConfig {
 	@SuppressWarnings("unchecked")
 	protected void registDataSourceByHibernate(Map<Object, Object> dataSources){
 		StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-				.loadProperties("configs/db/hibernate-center-db.properties")
+				.loadProperties(_centerDB)
 				.build();
 		try {
 			MetadataSources metadataSources=new MetadataSources( registry );
@@ -154,7 +160,6 @@ public class DataAppConfig {
 				comDataSources = query.getExecutableCriteria(session).list();
 				tran.commit();
 			} catch (Exception e) {
-				log.error(e.getMessage());
 				//e.printStackTrace();
 			}finally{
 				session.close();
@@ -175,6 +180,7 @@ public class DataAppConfig {
 			}
 		}
 		catch (Exception e) {
+			logger.warn("中心库配置失败，请检查文件:"+_centerDB+" 是否配置正确");
 			// The registry would be destroyed by the SessionFactory, but we had trouble building the SessionFactory
 			// so destroy it manually.
 			StandardServiceRegistryBuilder.destroy( registry );
@@ -188,18 +194,22 @@ public class DataAppConfig {
 	 * 注册分库信息
 	 */
 	protected void registDataSource(Map<Object, Object> dataSources){
-		_dataSourcesJsonArr = FileUtil.readJSONArray("configs/db/datasource.properties");
+		try {
+			_dataSourcesJsonArr = FileUtil.readJSONArray(_subDbs);
+		} catch (Exception e1) {
+			logger.warn("读取 "+_subDbs+" 文件失败！");
+		}
+		
 		for (int i = 0 ;i<_dataSourcesJsonArr.length() ;i++) {
 			try {
 				JSONObject jo =   _dataSourcesJsonArr.getJSONObject(i);
-				if(jo.get("datasource-name")!=null) {
+				if(!ObjectUtils.isEmpty(jo.get("datasource-name"))) {
 					DataSource dataSource = JSONObjectToDataSource(jo);
 					dataSources.put(jo.get("datasource-name"), dataSource);
+					logger.info("添加注入   " + jo.get("datasource-name"));
 				}
-				System.out.println(jo);
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 		}
 		/**
@@ -221,7 +231,6 @@ public class DataAppConfig {
 	@Resource
 	@Lazy
 	public DynamicDataSource dynamicDataSource(DataSource dataSource) {
-		log.debug("启动------数据库注入");
 		Map<Object, Object> dataSources = new HashMap<Object, Object>();
 		dataSources.put("dataSource", dataSource);
 		/***
