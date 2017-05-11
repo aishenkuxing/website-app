@@ -303,7 +303,7 @@ public class Endecrypt {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Endecrypt test = new Endecrypt();
+		//Endecrypt test = new Endecrypt();
 		//加密密钥
 		String oldString = "加密算法12312312";
 		//加密串
