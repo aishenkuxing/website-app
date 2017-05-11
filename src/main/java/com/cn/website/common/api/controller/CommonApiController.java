@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpRequest;
 import org.apache.http.client.ClientProtocolException;
@@ -31,7 +32,6 @@ import com.cn.website.common.service.HomeService;
 import com.cn.website.common.util.Endecrypt;
 import com.cn.website.common.util.IpAddrUtil;
 import com.cn.website.user.bean.UserInfo;
-import com.cn.website.user.service.UserInfoService;
 import com.google.gson.JsonObject;
 
 import io.swagger.annotations.ApiOperation;
@@ -42,17 +42,17 @@ public class CommonApiController {
 	@Autowired
 	private HomeService homeServiceImpl;
 	
-	
 	 @PermissionAuth(role = PermissionType.ADMIN)
 	 @RequestMapping("getRequest")
 	 @ApiOperation(value = "代理接口", httpMethod = "GET", notes = "代理接口",tags="测试组件")
 	 public MessageNotice getRequest(String msg) throws ClientProtocolException, IOException{ 
 		 MessageNotice message = new MessageNotice(2,msg);
-		 HttpClient httpclient = new DefaultHttpClient(); 
+		 //HttpClient httpclient = new DefaultHttpClient(); 
 		
 		// httpclient.execute(HttpHost.create("http://192.168.245.120:831/api/common/index"));
 
 		 //httpclient.execute(uriRequest);
+		 
 		 return message;
 	 }
 	
@@ -64,9 +64,8 @@ public class CommonApiController {
 	
 	   homeServiceImpl.getVersion();
 	   MessageNotice message = new MessageNotice(1,msg);
-	   String ip = IpAddrUtil.getIpAddr(request);
-	   
-	   if(ip!=""){
+	   String ip = IpAddrUtil.getIpAddr(request);   
+	   if(StringUtils.isNotBlank(ip)){
 		   String mac = IpAddrUtil.getMACAddress(ip);
 		   message.setMessage("ip:"+ip+",mac:" + mac);
 	   }

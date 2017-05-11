@@ -24,11 +24,15 @@ public class WebContextUtil implements ApplicationContextAware {
 
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		WebContextUtil.appContext = (AnnotationConfigWebApplicationContext) applicationContext;
+		setAppContext( (AnnotationConfigWebApplicationContext) applicationContext);
 	}
 
-	public ApplicationContext getApplicationContext() {
+	public static AnnotationConfigWebApplicationContext getAppContext() {
 		return appContext;
+	}
+
+	public static void setAppContext(AnnotationConfigWebApplicationContext appContext) {
+		WebContextUtil.appContext = appContext;
 	}
 
 	public static Object getBean(String paramString) {
