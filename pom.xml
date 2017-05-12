@@ -338,6 +338,12 @@
 			<artifactId>website-basic</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+		    <groupId>cglib</groupId>
+		    <artifactId>cglib-nodep</artifactId>
+		    <version>3.2.5</version>
+		</dependency>
+		
 	</dependencies>
 
 	<build>
