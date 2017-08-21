@@ -263,7 +263,8 @@
 			<version>jdk1.8.0_121</version>
 			<scope>system</scope>
 			<systemPath>${JAVA_HOME}/lib/tools.jar</systemPath>
-		</dependency>
+		</dependency>	
+		
 		<dependency>
 			<groupId>org.apache.hadoop</groupId>
 			<artifactId>hadoop-core</artifactId>
@@ -332,10 +333,14 @@
 			<artifactId>website-mcxs</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		
 		<dependency>
 			<groupId>com.web.website.app</groupId>
 			<artifactId>website-basic</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.web.website.app</groupId>
+			<artifactId>website-app-payment</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
@@ -343,9 +348,12 @@
 		    <artifactId>cglib-nodep</artifactId>
 		    <version>3.2.5</version>
 		</dependency>
-		
+		<dependency>
+		    <groupId>org.apache.lucene</groupId>
+		    <artifactId>lucene-core</artifactId>
+		    <version>6.6.0</version>
+		</dependency>
 	</dependencies>
-
 	<build>
 		<plugins>
 			<!-- tomcat控制 -->

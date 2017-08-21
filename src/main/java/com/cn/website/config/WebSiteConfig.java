@@ -11,6 +11,7 @@ import org.springframework.context.annotation.PropertySources;
 import org.springframework.core.env.Environment;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.MediaType;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.util.AntPathMatcher;
@@ -237,6 +238,12 @@ public class WebSiteConfig extends WebMvcConfigurerAdapter {
 		//pathMatcher.isPattern("/api");
 		//pathMatcher.extractPathWithinPattern(pattern, path)
 	   return pathMatcher;
+	 }
+	 
+	 @Bean(name ="taskExecutor")
+	 public ThreadPoolTaskExecutor taskExecutor(){
+		 ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
+		 return taskExecutor;
 	 }
 	 
 	 /**

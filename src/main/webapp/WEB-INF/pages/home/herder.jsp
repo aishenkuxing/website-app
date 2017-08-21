@@ -3,6 +3,7 @@
 <html>
 
 	<head>
+		<meta name="baidu-site-verification" content="r8D4VRkoTS" />
 		<meta charset="utf-8">
 		<meta name="keywords" content="黄家成,huangjiacheng,hjc">
 		<meta name="description" content="我自信，我骄傲。黄家成 blog，黄家成 网站。">
