@@ -17,9 +17,13 @@ public class WebSiteBeanWare implements BeanFactoryAware {
 	
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-		this.beanFactory = (DefaultListableBeanFactory) beanFactory;
 /*		HomeService homeServiceImpl2 = (HomeService) getBean("homeServiceImpl");
 		System.out.println(homeServiceImpl2.getVersion());*/
+		setBeanFactory((DefaultListableBeanFactory) beanFactory);
+	}
+
+	public static void setBeanFactory(DefaultListableBeanFactory beanFactory) {
+		WebSiteBeanWare.beanFactory = beanFactory;
 	}
 
 	public BeanFactory getBeanFactory() {
