@@ -11,6 +11,9 @@
         <dependent-module archiveName="website-basic-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/website-basic/website-basic">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="website-weixinpayment-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/website-weixinpayment/website-weixinpayment">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="website-app"/>
         <property name="java-output-path" value="/website-app/target/classes"/>
     </wb-module>

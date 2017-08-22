@@ -340,9 +340,10 @@
 		</dependency>
 		<dependency>
 			<groupId>com.web.website.app</groupId>
-			<artifactId>website-app-payment</artifactId>
+			<artifactId>website-weixinpayment</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		
 		<dependency>
 		    <groupId>cglib</groupId>
 		    <artifactId>cglib-nodep</artifactId>

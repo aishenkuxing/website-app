@@ -51,13 +51,15 @@ import com.cn.website.namegenerator.WebSiteNameGenerator;
 @ComponentScan(basePackages = {
 	"com.cn.website.aware",
 	"com.cn.website.*.controller",
-	"com.cn.website.*.api.controller",
+//	"com.cn.website.*.api.controller",
+	"com.cn.website.*.*.controller",
 	"com.cn.website.*.service.impl",
 	"com.cn.website.*.dao.impl",
 	"com.cn.website.*.service",
 	"com.cn.website.*.dao",
 	"com.cn.website.aspect",
 	"com.cn.website.interceptor"
+	
 },nameGenerator = WebSiteNameGenerator.class)
 @EnableAspectJAutoProxy
 @PropertySources(value = { @PropertySource(value = { "classpath:configs/applicationContext.properties" }) })
