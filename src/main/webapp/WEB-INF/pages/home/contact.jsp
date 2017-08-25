@@ -8,6 +8,18 @@
 		margin-bottom:200px;
 	}
 </style>
+<script>
+	$(document).ready(function(){
+		var postJson={}
+		$("#submit").click(function(e){
+			var name = $("#name").val();
+			var project = $("#project").val();
+			var email = $("#email").val();
+			var phone = $("#phone").val();
+			var message = $("#message").val();
+		});
+	});
+</script>
 <div class="tab-2 resp-tab-content resp-tab-content-active" aria-labelledby="tab_item-2" style="display:block">
 	<!-- contact -->
 	<div class="agile_about">
@@ -20,17 +32,17 @@
 		<div class="agileits_agile_about_mail">
 			<form action="#" method="post">
 				<div class="col-md-6 agileits_agile_about_mail_left"  style="margin-bottom: 1em;">
-					<label class="label-text">您的姓名</label><input type="text" name="Name" placeholder="姓名" required style="margin-bottom: 1em;">
-					<label class="label-text">您的项目</label><input type="text" name="项目" placeholder="项目" required>
+					<label class="label-text">您的姓名</label><input type="text" id="name" name="Name" placeholder="姓名" required style="margin-bottom: 1em;">
+					<label class="label-text">您的项目</label><input type="text" id="project" name="项目" placeholder="项目" required>
 				</div>
 				<div class="col-md-6 agileits_agile_about_mail_left"  style="margin-bottom: 1em;">
-					<label class="label-text">联系邮箱</label><input type="email" name="Email" placeholder="邮箱" required style="margin-bottom: 1em;">
-					<label class="label-text">联系电话</label><input type="text" name="Phone" placeholder="手机号" required>
+					<label class="label-text">联系邮箱</label><input type="email" id="email" name="Email" placeholder="邮箱" required style="margin-bottom: 1em;">
+					<label class="label-text">联系电话</label><input type="text" id="phone" name="Phone" placeholder="手机号" required>
 				</div>
 				<div class="clearfix"> </div>
 				<label>给我留言</label>
-				<textarea name="Message" placeholder="给我留言..." required></textarea>
-				<input type="submit" value="提交">
+				<textarea name="Message" id="message" placeholder="给我留言..." required></textarea>
+				<input type="submit" id="submit" value="提交">
 			</form>
 		</div>
 	</div>
