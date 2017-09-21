@@ -42,10 +42,12 @@ import com.cn.website.common.util.IpAddrUtil;
 import com.cn.website.user.bean.UserInfo;
 import com.google.gson.JsonObject;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("api/common")
+@Api(tags="测试组件")
 public class CommonApiController {
 	@Autowired
 	private HomeService homeServiceImpl;
@@ -60,7 +62,7 @@ public class CommonApiController {
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "fileUpload",method = RequestMethod.POST)
-	@ApiOperation(value = "文件上传", httpMethod = "POST", notes = "首页入口",tags="上传组件")
+	@ApiOperation(value = "文件上传", httpMethod = "POST", notes = "首页入口")
 	public MessageNotice fileUpload(@RequestParam("file") CommonsMultipartFile file,@RequestBody String filepath,@RequestBody String filename,HttpServletRequest request) throws IOException { 
 		MessageNotice message = new MessageNotice();
 		//用来检测程序运行时间
@@ -89,7 +91,7 @@ public class CommonApiController {
 	
 	 @PermissionAuth(role = PermissionType.ADMIN)
 	 @RequestMapping(value="getRequest",method = RequestMethod.GET)
-	 @ApiOperation(value = "代理接口", httpMethod = "GET", notes = "代理接口",tags="测试组件")
+	 @ApiOperation(value = "代理接口", httpMethod = "GET", notes = "代理接口")
 	 public MessageNotice getRequest(String msg) throws ClientProtocolException, IOException{ 
 		 MessageNotice message = new MessageNotice(2,msg);
 		 //HttpClient httpclient = new DefaultHttpClient(); 
@@ -104,7 +106,7 @@ public class CommonApiController {
 	
    @Cacheable("message")
    @RequestMapping(value="index",method = RequestMethod.GET)
-   @ApiOperation(value = "首页入口", httpMethod = "GET", notes = "首页入口",tags="测试组件")
+   @ApiOperation(value = "首页入口", httpMethod = "GET", notes = "首页入口")
    public MessageNotice index(String msg,HttpServletRequest request){ 
 	
 	   homeServiceImpl.getVersion();
@@ -119,7 +121,7 @@ public class CommonApiController {
    }
    
    @RequestMapping(value="getUserInfo",method = RequestMethod.GET)
-   @ApiOperation(value = "根据id获取人员信息", httpMethod = "GET",notes = "根据id获取人员信息",tags="测试组件")
+   @ApiOperation(value = "根据id获取人员信息", httpMethod = "GET",notes = "根据id获取人员信息")
    public MessageObject<ComUserInfo> getUserInfo(@RequestParam(value = "id")long id,HttpServletRequest request){
 	   MessageObject<ComUserInfo> msg = new MessageObject<ComUserInfo>();
 	   msg.setCode(1);
@@ -128,7 +130,7 @@ public class CommonApiController {
    }
    
    @RequestMapping(value="getUserInfoList",method = RequestMethod.GET)
-   @ApiOperation(value = "根据信息获取人员信息", httpMethod = "GET",notes = "根据id获取人员信息",tags="测试组件")
+   @ApiOperation(value = "根据信息获取人员信息", httpMethod = "GET",notes = "根据id获取人员信息")
    public MessageObject<List<ComUserInfo>> getUserInfoList(@RequestParam(value = "id")long id,HttpServletRequest request){
 	   ComUserInfo info = new ComUserInfo();
 	   info.setId(id);

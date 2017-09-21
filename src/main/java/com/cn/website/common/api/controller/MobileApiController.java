@@ -14,10 +14,12 @@ import com.cn.website.common.bean.MobileVersion;
 import com.cn.website.common.service.HomeService;
 import com.cn.website.mcxs.bean.GoodsInfo;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("api/mobile")
+@Api(tags="手机软件")
 public class MobileApiController {
 	
 	@Autowired
@@ -27,8 +29,7 @@ public class MobileApiController {
 	private HomeService homeServiceImpl;
 	
 	   @RequestMapping(value = "getVersion",method = RequestMethod.GET)
-	   @ApiOperation(value = "获取软件版本号信息", httpMethod = "GET",
-	   	notes = "获取软件版本号信息息",tags="手机软件")
+	   @ApiOperation(value = "获取软件版本号信息", httpMethod = "GET",notes = "获取软件版本号信息息")
 	   public MobileVersion getVersion(String appkey,String version){
 		    MobileVersion mv =new MobileVersion();
 		    System.out.println(appkey);
