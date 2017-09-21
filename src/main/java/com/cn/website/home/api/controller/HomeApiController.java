@@ -17,11 +17,9 @@ import io.swagger.annotations.ApiOperation;
 public class HomeApiController {
  
 	 @RequestMapping(value="saveContactWay" , method = RequestMethod.POST)
-	 @ApiOperation(value = "代理接口", httpMethod = "Post", notes = "代理接口",tags="主页接口设计")
+	 @ApiOperation(value = "代理接口", httpMethod = "POST", notes = "代理接口",tags="主页接口设计")
 	 public MessageNotice saveContactWay(ContactWayPojo contactWay){ 
-		 MessageNotice notice = new MessageNotice();
-		 
-		 
+		 MessageNotice notice = new MessageNotice(); 
 		 return notice;
 	 }
 	

@@ -6,9 +6,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.sql.DataSource;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
@@ -47,15 +49,49 @@ public class HibernateConfig {
 		Map<String,String> map= new HashMap<String,String>();
 		return map;
 	}
+	/**
+	 * 配置hibernate 连接池 和SessionFactory
+	 * @param dataSource
+	 * @return
+	 */
+	@Bean(name="centerSessionFactory")
+	@Autowired
+	public LocalSessionFactoryBean centerSessionFactory(DataSource dataSource){
+		
+		LocalSessionFactoryBean localSessionFactoryBean=new LocalSessionFactoryBean();
+		
+		localSessionFactoryBean.setDataSource(dataSource);
+		//扫描注解 并取得 扫描到的加载bean文件路径
+		WebSiteAnnotation.WebEntityScan webEntryScan = HibernateConfig.class.getAnnotation(WebSiteAnnotation.WebEntityScan.class);	
+		
+		Properties pro = new Properties();//hibernate 配置属性集合对象 
+		InputStream  inStream=this.getClass().getClassLoader().getResourceAsStream("configs/db/hibernate.properties");
+		try {
+			pro.load(inStream);
+			localSessionFactoryBean.setHibernateProperties(pro);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		/**
+		 * 扫描Bean路径
+		 */
+		 if(webEntryScan!=null&&webEntryScan.value()!=null){
+			 
+			String[] scanEntity = webEntryScan.value();
+			
+			localSessionFactoryBean.setPackagesToScan(scanEntity);
+		 } 
+		return localSessionFactoryBean;
+	}
 	
 	/**
 	 * 配置hibernate 连接池 和SessionFactory
 	 * @param dataSource
 	 * @return
 	 */
-	@Bean(name="localSessionFactoryBean")
+	@Bean(name="userSessionFactory")
 	@Autowired
-	public LocalSessionFactoryBean localSessionFactoryBean(DynamicDataSource dynamicDataSource){
+	public LocalSessionFactoryBean userSessionFactory(DynamicDataSource dynamicDataSource){
 		
 		LocalSessionFactoryBean localSessionFactoryBean=new LocalSessionFactoryBean();
 		
@@ -105,7 +141,7 @@ public class HibernateConfig {
 	 */
 	@Bean(name="txManager")
 	@Autowired
-	public HibernateTransactionManager transactionManager(SessionFactory sessionFactory){
+	public HibernateTransactionManager transactionManager(@Qualifier("userSessionFactory")SessionFactory sessionFactory){
 		HibernateTransactionManager hibernateTransactionManager = new HibernateTransactionManager(sessionFactory);
 		return hibernateTransactionManager;
 	}

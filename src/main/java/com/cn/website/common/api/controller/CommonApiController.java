@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -58,7 +59,7 @@ public class CommonApiController {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping("fileUpload")
+	@RequestMapping(value = "fileUpload",method = RequestMethod.POST)
 	@ApiOperation(value = "文件上传", httpMethod = "POST", notes = "首页入口",tags="上传组件")
 	public MessageNotice fileUpload(@RequestParam("file") CommonsMultipartFile file,@RequestBody String filepath,@RequestBody String filename,HttpServletRequest request) throws IOException { 
 		MessageNotice message = new MessageNotice();
@@ -87,7 +88,7 @@ public class CommonApiController {
 	
 	
 	 @PermissionAuth(role = PermissionType.ADMIN)
-	 @RequestMapping("getRequest")
+	 @RequestMapping(value="getRequest",method = RequestMethod.GET)
 	 @ApiOperation(value = "代理接口", httpMethod = "GET", notes = "代理接口",tags="测试组件")
 	 public MessageNotice getRequest(String msg) throws ClientProtocolException, IOException{ 
 		 MessageNotice message = new MessageNotice(2,msg);
@@ -102,7 +103,7 @@ public class CommonApiController {
 	
 	
    @Cacheable("message")
-   @RequestMapping("index")
+   @RequestMapping(value="index",method = RequestMethod.GET)
    @ApiOperation(value = "首页入口", httpMethod = "GET", notes = "首页入口",tags="测试组件")
    public MessageNotice index(String msg,HttpServletRequest request){ 
 	
@@ -117,7 +118,7 @@ public class CommonApiController {
 	   return message;
    }
    
-   @RequestMapping("getUserInfo")
+   @RequestMapping(value="getUserInfo",method = RequestMethod.GET)
    @ApiOperation(value = "根据id获取人员信息", httpMethod = "GET",notes = "根据id获取人员信息",tags="测试组件")
    public MessageObject<ComUserInfo> getUserInfo(@RequestParam(value = "id")long id,HttpServletRequest request){
 	   MessageObject<ComUserInfo> msg = new MessageObject<ComUserInfo>();
@@ -126,7 +127,7 @@ public class CommonApiController {
 	   return msg;
    }
    
-   @RequestMapping("getUserInfoList")
+   @RequestMapping(value="getUserInfoList",method = RequestMethod.GET)
    @ApiOperation(value = "根据信息获取人员信息", httpMethod = "GET",notes = "根据id获取人员信息",tags="测试组件")
    public MessageObject<List<ComUserInfo>> getUserInfoList(@RequestParam(value = "id")long id,HttpServletRequest request){
 	   ComUserInfo info = new ComUserInfo();
@@ -137,29 +138,29 @@ public class CommonApiController {
 	   return msg;
    }
    
-	 @RequestMapping("checkUser")
-	 @ApiOperation(value = "校验密码登入", httpMethod = "GET",notes = "校验密码登入",tags="获取用户")
-	public MessageObject<JsonObject> checkUser(@RequestParam String username,@RequestParam String password,HttpServletRequest request,HttpServletResponse response){
-		 JsonObject json = new JsonObject();
-		 json.addProperty("username", username);
-		 json.addProperty("password", password);
-		 
-		 username = Endecrypt.getSiteEncrypt(username);
-		 password = Endecrypt.getSiteEncrypt(password);
-		 MessageObject<JsonObject> mo =new MessageObject<JsonObject>();
-		 UserInfo userInfo = homeServiceImpl.checkUser(username, password);
-		 if(userInfo!=null){
-			mo.setCode(1);
-			//mo.setData(userInfo.getId());
-			
-			String cartCookie =json.toString();//Cart转换成对象Json  
-		    Cookie cookie = new Cookie("UserBaseInfo",cartCookie);  
-		    cookie.setMaxAge(60*60*24*7);//保留7天 
-		    System.out.println(cartCookie);
-		    response.addCookie(cookie);  
-		 }
-		 System.out.println(username);
-		 System.out.println(password);
-		 return mo;
-	};
+//	 @RequestMapping(value = "checkUser",method = RequestMethod.GET)
+//	 @ApiOperation(value = "校验密码登入", httpMethod = "GET",notes = "校验密码登入",tags="获取用户")
+//	public MessageObject<JsonObject> checkUser(@RequestParam String username,@RequestParam String password,HttpServletRequest request,HttpServletResponse response){
+//		 JsonObject json = new JsonObject();
+//		 json.addProperty("username", username);
+//		 json.addProperty("password", password);
+//		 
+//		 username = Endecrypt.getSiteEncrypt(username);
+//		 password = Endecrypt.getSiteEncrypt(password);
+//		 MessageObject<JsonObject> mo =new MessageObject<JsonObject>();
+//		 UserInfo userInfo = homeServiceImpl.checkUser(username, password);
+//		 if(userInfo!=null){
+//			mo.setCode(1);
+//			//mo.setData(userInfo.getId());
+//			
+//			String cartCookie =json.toString();//Cart转换成对象Json  
+//		    Cookie cookie = new Cookie("UserBaseInfo",cartCookie);  
+//		    cookie.setMaxAge(60*60*24*7);//保留7天 
+//		    System.out.println(cartCookie);
+//		    response.addCookie(cookie);  
+//		 }
+//		 System.out.println(username);
+//		 System.out.println(password);
+//		 return mo;
+//	};
 }

@@ -7,6 +7,7 @@ import javax.ws.rs.FormParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,10 +26,9 @@ public class UserController {
 	@Autowired
 	private UserInfoService userInfoService;
 	
-	 @RequestMapping("checkUser")
+	 @RequestMapping(value = "checkUser",method = RequestMethod.GET)
 	 @ApiOperation(value = "校验密码登入", httpMethod = "GET",
 	   	notes = "校验密码登入",tags="获取用户")
-	 
 	public MessageObject<JsonObject> checkUser(@RequestParam String username,@RequestParam String password,HttpServletRequest request,HttpServletResponse response){
 		 JsonObject json = new JsonObject();
 		 json.addProperty("username", username);
