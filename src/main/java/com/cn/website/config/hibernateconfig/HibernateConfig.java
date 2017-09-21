@@ -91,7 +91,7 @@ public class HibernateConfig {
 	 */
 	@Bean(name="userSessionFactory")
 	@Autowired
-	public LocalSessionFactoryBean userSessionFactory(DynamicDataSource dynamicDataSource){
+	public LocalSessionFactoryBean localSessionFactoryBean(DynamicDataSource dynamicDataSource){
 		
 		LocalSessionFactoryBean localSessionFactoryBean=new LocalSessionFactoryBean();
 		
@@ -142,6 +142,18 @@ public class HibernateConfig {
 	@Bean(name="txManager")
 	@Autowired
 	public HibernateTransactionManager transactionManager(@Qualifier("userSessionFactory")SessionFactory sessionFactory){
+		HibernateTransactionManager hibernateTransactionManager = new HibernateTransactionManager(sessionFactory);
+		return hibernateTransactionManager;
+	}
+	
+	/**
+	 * 注解配置Hibernate事物管理器
+	 * @param sessionFactory
+	 * @return
+	 */
+	@Bean(name="centerTxManager")
+	@Autowired
+	public HibernateTransactionManager centerTxManager(@Qualifier("centerSessionFactory")SessionFactory sessionFactory){
 		HibernateTransactionManager hibernateTransactionManager = new HibernateTransactionManager(sessionFactory);
 		return hibernateTransactionManager;
 	}
