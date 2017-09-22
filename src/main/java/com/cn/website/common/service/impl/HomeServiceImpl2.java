@@ -23,8 +23,8 @@ import com.cn.website.common.entity.Student;
 import com.cn.website.common.service.HomeService;
 import com.cn.website.user.bean.UserInfo;
 
-@Transactional
 @Scope(value = "prototype", proxyMode = ScopedProxyMode.DEFAULT)
+@Transactional(value ="txManager")
 public class HomeServiceImpl2 implements HomeService {
 	
 	@Autowired

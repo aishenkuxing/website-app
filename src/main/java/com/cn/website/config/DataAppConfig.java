@@ -80,7 +80,7 @@ public class DataAppConfig {
 
 		_username = _env.getProperty("hibernate.connection.username");
 
-		_password = _env.getProperty("datasource.connection.password");
+		_password = _env.getProperty("hibernate.connection.password");
 
 		_driver = _env.getProperty("hibernate.connection.driver_class");
 

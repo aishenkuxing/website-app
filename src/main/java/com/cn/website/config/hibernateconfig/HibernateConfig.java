@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 import org.hibernate.SessionFactory;
@@ -55,7 +56,7 @@ public class HibernateConfig {
 	 * @return
 	 */
 	@Bean(name="centerSessionFactory")
-	@Autowired
+	@Resource
 	public LocalSessionFactoryBean centerSessionFactory(DataSource dataSource){
 		
 		LocalSessionFactoryBean localSessionFactoryBean=new LocalSessionFactoryBean();

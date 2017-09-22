@@ -23,9 +23,9 @@ import com.cn.website.common.service.impl.HomeServiceImpl2;
 @Aspect
 @Configuration
 public class WebSiteAspect {
-/*	@Autowired
-	@Qualifier("sessionFactory")
-	private SessionFactory sessionFactory;*/
+///*	@Autowired
+//	@Qualifier("sessionFactory")
+//	private SessionFactory sessionFactory;*/
 	
 //	@Autowired
 //	public HibernateTransactionManager txManager;
@@ -39,10 +39,12 @@ public class WebSiteAspect {
 	 * @Transactional 事务拦截处理
 	 * @param ex
 	 */
+	
+	
 	@Pointcut("execution(* com.cn.website.*.service.impl..*(..))")// the pointcut expression
-	@Transactional(readOnly = true, propagation = Propagation.REQUIRES_NEW)
+	@Transactional(value ="txManager", readOnly = true, propagation = Propagation.REQUIRES_NEW)
 	private void PointCutService() {
-		//System.out.println("PointCutService");		
+		System.out.println("PointCutService");		
 	}// the pointcut signature
 	
 	/**

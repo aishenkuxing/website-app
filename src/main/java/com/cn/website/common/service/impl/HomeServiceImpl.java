@@ -25,8 +25,8 @@ import com.cn.website.user.bean.UserInfo;
 import com.cn.website.user.dao.UserInfoDAO;
 
 @Service("homeServiceImpl")
-@Transactional
-//@Scope(value = "prototype", proxyMode = ScopedProxyMode.DEFAULT)
+@Transactional(value ="txManager")
+@Scope(value = "prototype", proxyMode = ScopedProxyMode.DEFAULT)
 public class HomeServiceImpl implements HomeService {
 
 	@Autowired(required=true)
