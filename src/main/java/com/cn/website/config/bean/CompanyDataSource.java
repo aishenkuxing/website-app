@@ -44,6 +44,39 @@ public class CompanyDataSource {
 	 */
 	@Column(name = "db_source_name")
 	private String dbSourceName;
+	
+	@Column(name = "db_ip")
+	private String dbIp;
+	
+	@Column(name = "db_uri")
+	private String dbUri;
+	
+	public String getDbIp() {
+		return dbIp;
+	}
+
+	public void setDbIp(String dbIp) {
+		this.dbIp = dbIp;
+	}
+
+	public String getDbUri() {
+		return dbUri;
+	}
+
+	public void setDbUri(String dbUri) {
+		this.dbUri = dbUri;
+	}
+
+	public String getDbSport() {
+		return dbSport;
+	}
+
+	public void setDbSport(String dbSport) {
+		this.dbSport = dbSport;
+	}
+
+	@Column(name = "db_sport")
+	private String dbSport;
 
 	public long getId() {
 		return id;

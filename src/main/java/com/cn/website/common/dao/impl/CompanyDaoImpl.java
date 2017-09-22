@@ -18,9 +18,9 @@ public class CompanyDaoImpl extends BaseDaoSupportImpl  implements CompanyDao  {
 	@Override
 	public List<CompanyDataSource> getCompanyDataSource() {	
 		Session session =centerHbernateTemplate.getSessionFactory().openSession();
-		//List<CompanyDataSource> lis =  session.createQuery("select * from db_company_datasource",CompanyDataSource.class).getResultList();
-		DetachedCriteria query = DetachedCriteria.forClass(CompanyDataSource.class);
-		List lis = query.getExecutableCriteria(session).list();
+		List<CompanyDataSource> lis =  session.createQuery("from db_company_datasource where 1=1",CompanyDataSource.class).getResultList();
+		//DetachedCriteria query = DetachedCriteria.forClass(CompanyDataSource.class);
+		//List lis = query.getExecutableCriteria(session).list();
 		session.close();
 		return lis;
 	}
