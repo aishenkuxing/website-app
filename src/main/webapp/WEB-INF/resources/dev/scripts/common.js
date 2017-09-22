@@ -3,6 +3,7 @@ requirejs.config({
     paths: {
 	  "text": "libs/combo/text",
 	  "css": "libs/combo/css",
-      "jquery": "libs/jquery"
+      "jquery": "libs/jquery",
+      "jquery.json.min":"libs/jquery.json.min"
     }
 });

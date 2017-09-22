@@ -17,6 +17,13 @@
 			var email = $("#email").val();
 			var phone = $("#phone").val();
 			var message = $("#message").val();
+
+			$.ajax({
+				type:"post",
+				url:"/api/myblob/saveLink",
+				//data:
+				async:true
+			});
 		});
 	});
 </script>

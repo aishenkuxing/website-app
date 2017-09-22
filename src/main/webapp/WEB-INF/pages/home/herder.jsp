@@ -14,6 +14,8 @@
 		<link rel="stylesheet" href="/resources/home/css/style.css">
 		<link rel="stylesheet" href="/resources/home/css/swipebox.css">
 		<script src="/resources/scripts/libs/jquery/jquery.js"></script>
+		<script src="/resources/scripts/require.js"></script>
+		<script src="/resources/scripts/common.js"></script>
 	</head>
 
 	<body>
