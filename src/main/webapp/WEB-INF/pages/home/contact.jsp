@@ -9,20 +9,37 @@
 	}
 </style>
 <script>
-	$(document).ready(function(){
+	require(['domReady!', "mmRequest","jquery.json.min"], function(d) {
 		var postJson={}
 		$("#submit").click(function(e){
 			var name = $("#name").val();
-			var project = $("#project").val();
+			var projectName = $("#project").val();
 			var email = $("#email").val();
-			var phone = $("#phone").val();
-			var message = $("#message").val();
-
+			var telephone = $("#phone").val();
+			var remark = $("#message").val();
+			var _linkmsg = {
+				name:name,
+				telephone:telephone,
+				projectName:projectName,
+				remark:remark,
+				email:email
+			}
 			$.ajax({
+				contentType: "application/json",
 				type:"post",
 				url:"/api/myblob/saveLink",
-				//data:
-				async:true
+				data:$.toJSON(_linkmsg);
+				async:true,
+				success:function(res){
+					if(res.code == 1){
+						alert("提交成功！我会尽快给您答复。");
+					}else{
+						
+					}
+				},
+				error:function(res){
+					
+				}
 			});
 		});
 	});
