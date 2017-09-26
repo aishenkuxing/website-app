@@ -58,8 +58,10 @@ import com.cn.website.namegenerator.WebSiteNameGenerator;
 	"com.cn.website.*.service",
 	"com.cn.website.*.dao",
 	"com.cn.website.aspect",
-	"com.cn.website.interceptor"
-	
+	"com.cn.website.interceptor",
+	"com.cn.website.event",
+	"com.cn.website.event.listener",
+	"com.cn.website.event.pbulish"
 },nameGenerator = WebSiteNameGenerator.class)
 @EnableAspectJAutoProxy
 @PropertySources(value = { @PropertySource(value = { "classpath:configs/applicationContext.properties" }) })

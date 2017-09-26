@@ -38,7 +38,7 @@
 	</developers>
 
 	<properties>
-		<spring-version>4.2.6.RELEASE</spring-version>
+		<spring-version>4.2.9.RELEASE</spring-version>
 		<jdk-version>1.8</jdk-version>
 		<hibernate-version>5.2.1.Final</hibernate-version>
 		<springfox-version>2.5.0</springfox-version>

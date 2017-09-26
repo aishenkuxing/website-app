@@ -13,7 +13,7 @@ public class WebSiteEventService implements ApplicationEventPublisherAware {
 	
 	@Override
 	public void setApplicationEventPublisher(ApplicationEventPublisher publisher) {
-		this.publisher=publisher;
+		this.publisher = publisher;
 	}
 	
 	/***
@@ -23,8 +23,8 @@ public class WebSiteEventService implements ApplicationEventPublisherAware {
 	 * @param userpass
 	 */
 	public void userLogin(String username, String userpass) {
-		WebSiteEvent event = new WebSiteEvent(this,username,userpass);
-		publisher.publishEvent(event);
+		//WebSiteEvent event = new WebSiteEvent(this,username,userpass);
+		//publisher.publishEvent(event);
 	}
 	
 	//@EventListener
