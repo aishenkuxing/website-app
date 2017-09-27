@@ -1,4 +1,6 @@
 'use strict';
+require('./env/checked-engines')();  //判断当前的环境是否符合 前端开发环境
+
 const gulp = require('gulp'),
 	fs = require('fs'),
 	stream = require('stream'),
