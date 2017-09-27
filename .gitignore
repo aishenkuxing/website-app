@@ -1,1 +1,4 @@
 target/
+src/main/webapp/WEB-INF/resources/node_modules/
+src/main/webapp/WEB-INF/resources/build/
+src/main/webapp/WEB-INF/resources/build/*

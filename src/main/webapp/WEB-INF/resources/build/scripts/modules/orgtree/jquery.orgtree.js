@@ -1,100 +1,679 @@
-!function(e){"function"==typeof define&&define.amd?define(["jquery","text!scripts/ui/orgtree/html/copy_node.html","libs/jquery/jquery-ui/ui/widgets/draggable","libs/jquery/jquery-ui/ui/widgets/droppable","libs/jquery/jquery.json.min"],e):e(jQuery,copy_node)}(function($,e){var t=0,d=0,n=0;$(document).on("mousedown",".dragscroll",function(e){t=1,$(".container").css("cursor","url("+window.cdnUrl+"theme/default/org/img/palm16x16.ico),auto"),d=e.clientX,n=e.clientY}),$(document).on("mouseup",function(e){t=0,$(".container").css("cursor","url("+window.cdnUrl+"theme/default/org/img/fist16x16.ico),auto")}),$(document).on("mousemove",function(e){var r=$(".dragscroll");scroller=r[0],t&&(scroller.scrollLeft-=-d+(d=e.clientX),scroller.scrollTop-=-n+(n=e.clientY))}),
-//jquery插件
-function($){function d(e,t){
-//modify parentId
-e.children("dl").attr("data-layer",t),e.children("ul").children("li").each(function(e,n){d($(this),t+1)})}function n(t,d,a,i,o,s,c){null==a&&(a=0);var h=$("<table cellpadding='0' cellspacing='0' border='0'/>"),f=$("<tbody/>");t.attr("data-layer",a);
-//console.log(level);
-// Construct the node container(s)
-var p,u=$("<tr/>").addClass("node-cells"),v=$("<td/>").addClass("node-cell").attr("colspan",2),m=t.children("ul:first").children("li:not(.deleteNode)");0==m.length?t.children("dl").find(".nd-node-display").hide():t.children("dl").find(".nd-node-display").show(),m.length>1&&v.attr("colspan",2*m.length);
-// Draw the node
-// Get the contents - any markup except li and ul allowed
-var g=t.clone().children("ul,li").remove().end().html();if(
-//Increaments the node count which is used to link the source list and the org chart
-l++,t.data("tree-node",l),p=$("<div>").addClass("node").data("tree-node",l).append(g),u.hover(function(){r=u},function(){r=null}),
-// Expand and contract nodes
-m.length>0&&p.find("dt,.btn-tree").click(function(){var e=$(this).closest("div"),d=e.closest("tr");d.hasClass("contracted")?(e.css("cursor","n-resize"),d.removeClass("contracted").addClass("expanded"),d.nextAll("tr").css("visibility",""),
-// Update the <li> appropriately so that if the tree redraws collapsed/non-collapsed nodes
-// maintain their appearance
-t.removeClass("collapsed"),e.find(".btn-tree").removeClass("tree-open"),e.find(".btn-tree").addClass("tree-close")):(e.css("cursor","s-resize"),d.removeClass("expanded").addClass("contracted"),d.nextAll("tr").css("visibility","hidden"),t.addClass("collapsed"),e.find(".btn-tree").addClass("tree-open"),e.find(".btn-tree").removeClass("tree-close"))}),v.append(p),"0"!=a){var C="",y="";if(s&&s%2==1?(C=$('<div  data-position="left" class="node-sort node-sort-left hide"><div class="node-sort-box"></div></div>'),y=$('<div  data-position="right" class="node-sort node-sort-right hide"><div class="node-sort-box" ></div></div>'),p.before(C),p.after(y)):s&&s%2==0&&"last"==o&&(y=$('<div class="node-sort node-sort-right hide" data-position="right"><div class="node-sort-box"  ></div></div>'),p.after(y)),"first"==o||"only"==o){C.addClass("first-node");try{p.width()}catch(e){}}if("last"==o||"only"==o){y.addClass("last-node");try{}catch(e){}}}if(u.append(v),f.append(u),m.length>0){
-// recurse until leaves found (-1) or to the level specified
-if(
-// if it can be expanded then change the cursor
-p.css("cursor","n-resize"),i.depth==-1||a+1<i.depth){var b=$("<tr/>"),x=$("<td/>").attr("colspan",2*m.length);b.append(x),
-// draw the connecting line from the parent node to the horizontal line 
-$downLine=$("<div></div>").addClass("line down"),x.append($downLine),f.append(b);
-// Draw the horizontal lines
-var w=$("<tr/>");m.each(function(){var e=$("<td>&nbsp;</td>").addClass("line left top"),t=$("<td>&nbsp;</td>").addClass("line right top");w.append(e).append(t)}),
-// horizontal line shouldn't extend beyond the first and last child branches
-w.find("td:first").removeClass("top").end().find("td:last").removeClass("top"),f.append(w);var I=$("<tr/>");m.each(function(e,t){var d=$("<td class='node-container'/>");d.attr("colspan",2);var r="";0==e&&(r="first"),e==m.length-1&&(r="last"),1==m.length&&(r="only"),
-// recurse through children lists and items
-n($(this),d,a+1,i,r,e+1,c),I.append(d)})}f.append(I)}
-// any classes on the LI element get copied to the relevant node in the tree
-// apart from the special 'collapsed' class, which collapses the sub-tree at this point
-if(void 0!=t.attr("class")){var j=t.attr("class").split(/\s+/);$.each(j,function(e,t){"collapsed"==t?(u.find(".btn-tree").addClass("tree-open"),u.find(".btn-tree").removeClass("tree-close"),u.nextAll("tr").css("visibility","hidden"),u.removeClass("expanded"),u.addClass("contracted"),p.css("cursor","s-resize")):p.addClass(t)})}
-//处理结点操作
-return h.append(f),d.append(h),p.hover(function(){$(this).find("dt").hasClass("not-hover")||($(this).find("dt").addClass("zuzhijiagou-hover"),p.find(".nd-node-handle").show())},function(){$(this).find("dt").hasClass("not-hover")||($(this).find("dt").removeClass("zuzhijiagou-hover"),p.find(".nd-node-handle").hide())}),"function"==typeof i.eventSet&&i.eventSet(p,i,c,e),t}var r=null,a=!1,l=0,i={},o=0;
-//关闭树操作
-i.closeTree=null,
-//创建组织树
-createChartTree=function(t,d,n,r,a){var l=d+1;l>o&&(o=l),t&&t.length>0&&(r.append("<ul></ul>"),$.each(t,function(t,d){var i=$("<li>"+e+"</li>"),o=a.createChartTree(d,i,n,t);o.order||(o.order=t+1);var s=o.LDepId||o.DepId,c="node"+(new Date).getTime()+"id"+s;i.addClass(c),i.find(".nd-department-font").html(o.SDepName),i.children("dl").attr("data-nodeClass",c),i.children("dl").attr("data-id",s),i.children("dl").attr("data-order",o.order),i.children("dl").attr("data-layer",l),i.children("dl").attr("data-parentId",n),r.children("ul").append(i);createChartTree(o.ChildItems,l,s,i,a)}))},
-//创建root节点
-createRootItem=function(t,d,n){var r=$('<ul style="display:none"></ul>');n.append(r);var a=$("<li>"+e+"</li>"),l=d.createChartTree(t,a,null,0);d.hasRoot&&(a.find(".zuzhijiagou").html("&#xe61d;"),
-//首节点去除多余的标签
-a.find(".nd-node-handle").children("i").filter(function(){return!$(this).hasClass("nd-node-plus")&&!$(this).hasClass("nd-node-paste")}).remove());var i=l.LDepId||l.DepId,s="node"+(new Date).getTime()+"id"+i;
-//$chartElement.append("<li><li>");
-return o=0,a.addClass(s),a.children("dl").attr("data-nodeClass",s),a.children("dl").attr("data-id",i),a.children("dl").attr("data-order",1),a.children("dl").attr("data-layer",0),a.find(".nd-department-font").text(l.SDepName),createChartTree(l.ChildItems,0,i,a,d),r.append(a),r},$.fn.jOrgChart=function(e){var r,l=$.extend({},$.fn.jOrgChart.defaults,e),o=$(this);
-//第一次构建树
-if(""==l.chartElement&&l.repeatTree){r=createRootItem(l.data,l,o);var s="org"+(new Date).getTime();r.attr("id",s),l.chartElement="#"+s,l.repeatTree=!1}r=$(l.chartElement);var c=o,h=$("<div class='"+l.chartClass+"'/>");
-//加载完毕
-// add drag and drop if enabled
-// Drag start event handler for nodes
-// Drag stop event handler for nodes
-// Drop event handler for nodes
-// Drag and drop
-return r.is("ul")?n(r.find("li:first"),h,r.find("li:first").data("layer"),l,null,null,c):r.is("li")&&n(r,h,r.find("li:first").data("layer"),l,null,null,c),o.append(h),$(".first-node").each(function(e,t){try{var d=$(this).closest(".node-cell"),n=d.children(".node");left=(d.width()-n.width())/2-40,$(this).css({left:left+"px"})}catch(e){}}),$(".last-node").each(function(e,t){try{var d=$(this).closest(".node-cell"),n=d.children(".node");right=(d.width()-n.width())/2-40,$(this).css({right:right+"px"})}catch(e){}}),$("div.node").on("mouseover mousedown",function(){t=0,$(".build-tree-canvas").removeClass("dragscroll")}),$("div.node").on("mouseout",function(){$(".build-tree-canvas").addClass("dragscroll")}),l.dragAndDrop&&($("div.node").draggable({cursor:"move",distance:40,helper:"clone",opacity:.8,revert:"invalid",revertDuration:100,snap:"div.node.expanded",snapMode:"inner",stack:"div.node",handle:"dt",scrollSpeed:10,appendTo:".container",helper:function(){return'<dl class="nd-department-node nd-department-node-hover" style="position:relative;" ><dt style="margin-left:80px;" ><i class="zuzhijiagou iconfont">'+$(this).find(".zuzhijiagou").html()+'</i></dt><dd class="nd-department-font" style="margin-left:80px;">'+$(this).find(".nd-department-font").html()+"</dd></dl>"}}),$("div.node").droppable({accept:".node",activeClass:"drag-active",hoverClass:"drop-hover"}),$("div.node-sort").droppable({accept:".node-sort,.node",activeClass:"drag-active",hoverClass:"drop-hover",over:function(e,t){},drop:function(e,t){var n=$(this).parent().find(".nd-department-node").attr("data-nodeclass"),a=$(l.chartElement).find("li."+n),i=t.draggable.data("tree-node"),o=r.find("li").filter(function(){return $(this).data("tree-node")===i});if(!o.hasClass(n)){var s=o.parent("ul"),c=a.children("dl").data("layer"),h=a.children("dl").attr("data-parentId"),f=a.children("dl").attr("data-order"),p=o.children("dl").attr("data-nodeClass"),u=o.children("dl").find(".nd-department-font").html();if(repeat=!1,$.each($(l.chartElement).find("."+n).closest("ul").children("li:not(."+p+")").children("dl").find(".nd-department-font"),function(e,t){if($.trim($(this).html())==$.trim(u))return repeat=!0,!1}),repeat)
-//reduction old val 
-return void ND.msgbox.show("该部门下有同名部门！",2);var v=o.children("dl").data("nodeclass"),m=$(l.chartElement).find("li."+v);if("left"!=$(this).data("position")&&f++,"function"==typeof l.dropBrotherEvent&&!l.dropBrotherEvent(m,a,f,l))return!1;"left"==$(this).data("position")?a.before(o):a.after(o),
-//modify order
-o.children("dl").attr("data-parentId",h),
-//修改层数
-d(o,c),o.attr("modify",!0),
-//Removes any empty lists
-o.children("dl").attr("data-order",f),
-//对之后的节点 排序进行加1的操作
-m.nextAll().each(function(e,t){f++,$(this).children("dl").attr("data-order",f),$(this).attr("modify",!0)}),0===s.children().length&&s.remove()}}}),$("div.node").bind("dragstart",function(e,d){t=0,$(".build-tree-canvas").removeClass("dragscroll"),$(".node-sort").removeClass("hide");var n=$(this);n.parentsUntil(".node-container").find("*").filter(".node").droppable("disable"),n.parentsUntil(".node-container").find("*").filter(".node").first().addClass("nd-drag-dode"),n.find(".btn-tree").hasClass("tree-close")&&(i.closeTree=n.children("dl").attr("data-nodeclass"),n.find(".btn-tree").click())}),$("div.node").bind("dragstop",function(e,d){t=0,modifyItem=!0,$(".build-tree-canvas").addClass("dragscroll"),$(".node-sort").addClass("hide"),
-//drop
-// if (itemDrop) {
-o.children(".jOrgChart").remove(),o.jOrgChart(l),i.closeTree&&($("div."+i.closeTree).find(".btn-tree").click(),i.closeTree=null)}),$("div.node").bind("drop",function(e,n){t=0;var i=$(this).data("tree-node"),o=r.find("li").filter(function(){return $(this).data("tree-node")===i}),s=o.children("ul"),h=n.draggable.data("tree-node"),f=r.find("li").filter(function(){return $(this).data("tree-node")===h}),p=f.parent("ul"),u=o.children("dl").attr("data-nodeClass"),v=parseInt(o.children("dl").attr("data-layer")),m=f.children("dl").find(".nd-department-font").html(),g=f.children("dl").attr("data-nodeClass");if(repeat=!1,$.each($("#org").find("."+u).children("ul").children("li:not(."+g+")").children("dl").find(".nd-department-font"),function(e,t){if($.trim($(this).html())==$.trim(m))return repeat=!0,!1}),repeat)
-//reduction old val 
-return void ND.msgbox.show("该部门下有同名部门！",2);a=!0;var C=1,y=o.children("dl").attr("data-id"),b=$("#org").find("."+u).children("ul").children("li:not(."+g+")").last();
-//调换的节点加1
-v+=1;try{null!=b.children("dl").attr("data-order")&&(C=parseInt(b.children("dl").attr("data-order"))+1)}catch(e){}if(
-//modify layer
-f.children("dl").attr("data-order",C),
-//modify order
-f.children("dl").attr("data-parentId",y),d(f,v),f.attr("modify",!0),s.length<=0&&(o.append("<ul></ul>"),s=o.children("ul")),"function"==typeof l.dropNodeEvent){if(!l.dropNodeEvent(s,f,l,c))return!1}else s.append(f);
-//Removes any empty lists
-0===p.children().length&&p.remove()})),"function"==typeof l.finishEvent&&l.finishEvent(l),l.chartElement},
-// Option defaults
-$.fn.jOrgChart.defaults={
-//依赖到父节点
-chartElement:"",depth:-1,chart:"",chartClass:"jOrgChart",
-//是否开启拖拽功能
-dragAndDrop:!1,
-//事件集合
-eventSet:null,
-//最高层级
-maxLayer:null,
-//弹框信息
-alert:null,hasRoot:!0,
-//重新构造树
-repeatTree:!0,
-//当加载完毕后执行方法
-finishEvent:null,
-//当节点拖拽到某个节点下，放下时触发事件
-dropNodeEvent:null,
-//当置于左右节点，时触发事件,//事件触发 必须返回true才执行之后的操作 function( sourceLi , targetLi ,dataOrder) dataOrder 调整完的 位置
-dropBrotherEvent:null,
-//每次遍历的时候 会把子结点数据带入到数据中
-//用于自定义更改数据 dom为当前li节点 格式必须正确 否则加载会错误
-createChartTree:function(e,t,d,n){return{ChildItems:[],IndId:1,LDepId:1,LParentId:0,SDepName:"",SPath:"1|",SamId:1,ScaId:1}},data:{}}}(jQuery)});
+(function(factory) {
+	if(typeof define === "function" && define.amd) {
+		define([
+			"jquery",
+			"text!scripts/ui/orgtree/html/copy_node.html",
+			"libs/jquery/jquery-ui/ui/widgets/draggable",
+			"libs/jquery/jquery-ui/ui/widgets/droppable",
+			"libs/jquery/jquery.json.min"
+		], factory);
+	} else {
+		factory(jQuery, copy_node);
+	}
+}(function($, copy_node) {
+	var pushed = 0;
+	var lastClientX = 0;
+    var lastClientY = 0
+    $(document).on("mousedown", '.dragscroll', function (e) {
+        pushed = 1;
+        $(".container").css("cursor", "url("+window.cdnUrl+"theme/default/org/img/palm16x16.ico),auto");
+        lastClientX = e.clientX;
+        lastClientY = e.clientY;
+    });
+    $(document).on("mouseup", function (e) {
+        pushed = 0;
+        $(".container").css("cursor", "url("+window.cdnUrl+"theme/default/org/img/fist16x16.ico),auto");
+    });
+    $(document).on("mousemove", function (e) {
+        var dragged = $('.dragscroll');
+        scroller = dragged[0];
+        if (pushed) {
+            scroller.scrollLeft -=
+                (-lastClientX + (lastClientX = e.clientX));
+            scroller.scrollTop -=
+                (-lastClientY + (lastClientY = e.clientY));
+        }
+    });
+	
+	//jquery插件
+	(function($) {
+		var ilevel = 1;
+		var itemNode = null;
+		var itemDrop = false;
+		var nodefontText = "";
+		var nodeCount = 0;
+		var scrollbox = 0;
+		var orgTree = {};
+		var mlayer = 0;
+		//关闭树操作
+		orgTree.closeTree = null;
+
+		function loadNodeLayer(sourceLi, num) {
+			//modify parentId
+			sourceLi.children("dl").attr("data-layer", num);
+
+			sourceLi.children("ul").children("li").each(function(i, v) {
+				loadNodeLayer($(this), num + 1);
+			});
+		}
+
+		function getMaxLayer(sourceLi, oldnum) {
+			if(oldnum < 1) oldnum = 1;
+			var newnum = oldnum;
+			sourceLi.children("ul").children("li").each(function(i, v) {
+				var num = getMaxLayer($(this), oldnum + 1);
+				if(newnum < num) newnum = num;
+			});
+			return newnum;
+		}
+		//创建组织树
+		createChartTree = function(nodes, layer, parentId, parent, opts) {
+				var dataLayer = layer + 1;
+				if(dataLayer > mlayer) mlayer = dataLayer;
+				if(nodes && nodes.length > 0) {
+					
+					parent.append("<ul></ul>");
+					
+					$.each(nodes, function(i, v) {
+						var nodedom = $('<li>' + copy_node + '</li>');
+						var item = opts.createChartTree(v, nodedom , parentId , i);
+						if(!item.order) item.order = i+1;
+						var DepId = item.LDepId || item.DepId;
+						var nodeId = "node" + new Date().getTime() + 'id' + DepId;
+						nodedom.addClass(nodeId);
+						nodedom.find(".nd-department-font").html(item.SDepName);
+						nodedom.children("dl").attr("data-nodeClass", nodeId);
+						nodedom.children("dl").attr("data-id", DepId);
+						nodedom.children("dl").attr("data-order", item.order);
+						nodedom.children("dl").attr("data-layer", dataLayer);
+						nodedom.children("dl").attr("data-parentId", parentId);
+						parent.children("ul").append(nodedom);
+						var flag = createChartTree(item.ChildItems, dataLayer, DepId, nodedom, opts);
+					});
+				}
+			}
+			//创建root节点
+		createRootItem = function(data, opts, $appendTo) {
+
+			var orgNode = $('<ul style="display:none"></ul>');
+
+			$appendTo.append(orgNode);
+
+			var nodedom = $('<li>' + copy_node + '</li>');
+			
+			var item = opts.createChartTree(data, nodedom,null,0);
+			
+			if(opts.hasRoot){
+				nodedom.find(".zuzhijiagou").html("&#xe61d;");
+				//首节点去除多余的标签
+				nodedom.find('.nd-node-handle').children('i').filter(function() {
+					return !$(this).hasClass('nd-node-plus')&&!$(this).hasClass('nd-node-paste');
+				}).remove();
+			}
+			
+			var DepId = item.LDepId || item.DepId;
+			var nodeId = "node" + new Date().getTime() + 'id' + DepId;
+			//层级
+			var layer = 0;
+			mlayer = 0;
+			nodedom.addClass(nodeId);
+			nodedom.children("dl").attr("data-nodeClass", nodeId);
+			nodedom.children("dl").attr("data-id", DepId);
+			nodedom.children("dl").attr("data-order", 1);
+			nodedom.children("dl").attr("data-layer", layer);
+
+			nodedom.find('.nd-department-font').text(item.SDepName);
+		
+			createChartTree(item.ChildItems, layer, DepId, nodedom, opts);
+
+			orgNode.append(nodedom);
+
+			//$chartElement.append("<li><li>");
+			return orgNode;
+		}
+		
+		$.fn.jOrgChart = function(options) {
+				var opts = $.extend({}, $.fn.jOrgChart.defaults, options);
+
+				var $chartElement;
+
+				var $appendTo = $(this);
+				//第一次构建树
+				if(opts.chartElement == '' && opts.repeatTree) {
+					$chartElement = createRootItem(opts.data, opts, $appendTo);
+
+					var id = "org" + new Date().getTime();
+
+					$chartElement.attr("id", id);
+
+					opts.chartElement = "#" + id;
+
+					opts.repeatTree = false;
+				}
+
+				$chartElement = $(opts.chartElement);
+
+				var $treeBox = $appendTo;
+
+				// build the tree
+				var $container = $("<div class='" + opts.chartClass + "'/>");
+				if($chartElement.is("ul")) {
+					buildNode($chartElement.find("li:first"), $container, $chartElement.find("li:first").data("layer"), opts, null, null, $treeBox);
+				} else if($chartElement.is("li")) {
+					buildNode($chartElement, $container, $chartElement.find("li:first").data("layer"), opts, null, null, $treeBox);
+				}
+				$appendTo.append($container);
+				//加载完毕
+				$(".first-node").each(function(i, v) {
+					try {
+						var td = $(this).closest(".node-cell");
+						var node = td.children(".node");
+						left = (td.width() - node.width()) / 2 - 40;
+						$(this).css({
+							left: left + "px"
+						})
+					} catch(e) {}
+				});
+				$(".last-node").each(function(i, v) {
+					try {
+						var td = $(this).closest(".node-cell");
+						var node = td.children(".node");
+						right = (td.width() - node.width()) / 2 - 40;
+						$(this).css({
+							right: right + "px"
+						})
+					} catch(e) {}
+				});
+				
+				$('div.node').on("mouseover mousedown", function () {
+		            pushed = 0;
+		            $(".build-tree-canvas").removeClass("dragscroll");
+		        });
+		        $('div.node').on("mouseout", function () {
+		            $(".build-tree-canvas").addClass("dragscroll");
+		        });
+
+
+				// add drag and drop if enabled
+				if(opts.dragAndDrop) {
+					$('div.node').draggable({
+						cursor: 'move',
+						distance: 40,
+						helper: 'clone',
+						opacity: 0.8,
+						revert: 'invalid',
+						revertDuration: 100,
+						snap: 'div.node.expanded',
+						snapMode: 'inner',
+						stack: 'div.node',
+						handle: 'dt',
+						scrollSpeed: 10,
+						appendTo: '.container',
+						helper: function() {
+							return '<dl class="nd-department-node nd-department-node-hover" style="position:relative;" ><dt style="margin-left:80px;" ><i class="zuzhijiagou iconfont">' + $(this).find(".zuzhijiagou").html() + '</i></dt><dd class="nd-department-font" style="margin-left:80px;">' + $(this).find(".nd-department-font").html() + '</dd></dl>';
+						}
+					});
+					$('div.node').droppable({
+						accept: '.node',
+						activeClass: 'drag-active',
+						hoverClass: 'drop-hover'
+					});
+
+					$('div.node-sort').droppable({
+						accept: '.node-sort,.node',
+						activeClass: 'drag-active',
+						hoverClass: 'drop-hover',
+						over: function(event, ui) {
+							// console.log("over");
+						},
+						drop: function(event, ui) {
+
+							var targetClass = $(this).parent().find(".nd-department-node").attr("data-nodeclass");
+
+							var targetLi = $(opts.chartElement).find("li." + targetClass);
+							//  console.log(ui.draggable)
+							var sourceID = ui.draggable.data("tree-node");
+
+							var sourceLi = $chartElement.find("li").filter(function() {
+								return $(this).data("tree-node") === sourceID;
+							});
+
+							if(sourceLi.hasClass(targetClass)) return;
+
+							var sourceUl = sourceLi.parent('ul');
+
+							var dataLayer = targetLi.children("dl").data("layer");
+
+							//	                    var maxLayer = getMaxLayer(sourceLi, 0)
+							//	
+							//	                    if ((dataLayer + maxLayer) > 5) {
+							//	                        ND.msgbox.show("部门层级最多支持5层！", 2);
+							//	                        return;
+							//	                    }
+							var parentId = targetLi.children("dl").attr("data-parentId");
+
+							var dataOrder = targetLi.children("dl").attr("data-order");
+
+							var sourceDelcls = sourceLi.children("dl").attr("data-nodeClass");
+
+							var val = sourceLi.children("dl").find(".nd-department-font").html();
+
+							repeat = false;
+
+							$.each($(opts.chartElement).find("." + targetClass).closest("ul").children("li:not(." + sourceDelcls + ")").children("dl").find(".nd-department-font"), function(i, v) {
+								if($.trim($(this).html()) == $.trim(val)) {
+									repeat = true;
+									return false;
+								}
+							});
+
+							if(repeat) {
+								//reduction old val 
+								ND.msgbox.show("该部门下有同名部门！", 2);
+								return;
+							}
+							var clazz = sourceLi.children("dl").data("nodeclass");
+							var sourceLicurent = $(opts.chartElement).find("li." + clazz);
+							if($(this).data("position") != "left") {
+								dataOrder++;
+							}
+							if(typeof opts.dropBrotherEvent === 'function'){
+								//事件触发 必须返回true才执行之后的操作
+								if(!opts.dropBrotherEvent(  sourceLicurent ,targetLi ,dataOrder ,opts)){
+									return false;
+								}
+							}
+							if($(this).data("position") == "left") {
+								targetLi.before(sourceLi);
+							} else {
+								targetLi.after(sourceLi);
+							}
+							//modify order
+							sourceLi.children("dl").attr("data-parentId", parentId);
+
+							//修改层数
+							loadNodeLayer(sourceLi, dataLayer)
+
+							sourceLi.attr("modify", true);
+
+							//Removes any empty lists
+							
+							sourceLi.children("dl").attr("data-order", dataOrder);
+							//对之后的节点 排序进行加1的操作
+							sourceLicurent.nextAll().each(function(i, v) {
+								dataOrder++;
+								$(this).children("dl").attr("data-order", dataOrder);
+								$(this).attr("modify", true);
+							});
+							if(sourceUl.children().length === 0) {
+								sourceUl.remove();
+							}
+							
+						}
+					});
+					// Drag start event handler for nodes
+					$('div.node').bind("dragstart", function handleDragStart(event, ui) {
+						pushed = 0;
+						$(".build-tree-canvas").removeClass("dragscroll");
+						$(".node-sort").removeClass("hide");
+						var sourceNode = $(this);
+						sourceNode.parentsUntil('.node-container')
+							.find('*')
+							.filter('.node')
+							.droppable('disable');
+						sourceNode.parentsUntil('.node-container')
+							.find('*')
+							.filter('.node').first().addClass('nd-drag-dode');
+						if(sourceNode.find(".btn-tree").hasClass("tree-close")) {
+							orgTree.closeTree = sourceNode.children("dl").attr("data-nodeclass");
+							sourceNode.find(".btn-tree").click();
+						}
+					});
+
+					// Drag stop event handler for nodes
+					$('div.node').bind("dragstop", function handleDragStop(event, ui) {
+						pushed = 0;
+						modifyItem = true;
+						$(".build-tree-canvas").addClass("dragscroll");
+						$(".node-sort").addClass("hide");
+						//drop
+						// if (itemDrop) {
+						$appendTo.children(".jOrgChart").remove();
+						$appendTo.jOrgChart(opts);
+						if(orgTree.closeTree) {
+							$("div." + orgTree.closeTree).find(".btn-tree").click();
+							orgTree.closeTree = null;
+						}
+					});
+
+					// Drop event handler for nodes
+					$('div.node').bind("drop", function handleDropEvent(event, ui) {
+						pushed = 0;
+						var targetID = $(this).data("tree-node");
+						var targetLi = $chartElement.find("li").filter(function() {
+							return $(this).data("tree-node") === targetID;
+						});
+						var targetUl = targetLi.children('ul');
+
+						var sourceID = ui.draggable.data("tree-node");
+						var sourceLi = $chartElement.find("li").filter(function() {
+							return $(this).data("tree-node") === sourceID;
+						});
+						var sourceUl = sourceLi.parent('ul');
+
+						var targetDelcls = targetLi.children("dl").attr("data-nodeClass");
+
+						var dataLayer = parseInt(targetLi.children("dl").attr("data-layer"));
+
+						//	                var maxLayer = getMaxLayer(sourceLi, 0)
+						//	
+						//	                if ((dataLayer + maxLayer )>= 5) {
+						//	                    ND.msgbox.show("部门层级最多支持5层！", 2);
+						//	                    return;
+						//	                }
+
+						var val = sourceLi.children("dl").find(".nd-department-font").html();
+
+						var sourceDelcls = sourceLi.children("dl").attr("data-nodeClass");
+
+						repeat = false;
+						$.each($("#org").find("." + targetDelcls).children("ul").children("li:not(." + sourceDelcls + ")").children("dl").find(".nd-department-font"), function(i, v) {
+							if($.trim($(this).html()) == $.trim(val)) {
+								repeat = true;
+								return false;
+							}
+						});
+
+						if(repeat) {
+							//reduction old val 
+							ND.msgbox.show("该部门下有同名部门！", 2);
+							return;
+						}
+						itemDrop = true;
+
+						var dataOrder = 1;
+						var parentId = targetLi.children("dl").attr("data-id");
+						var last = $("#org").find("." + targetDelcls).children("ul").children("li:not(." + sourceDelcls + ")").last();
+						//调换的节点加1
+						dataLayer = dataLayer + 1;
+
+						try {
+							if(last.children("dl").attr("data-order") != null) dataOrder = parseInt(last.children("dl").attr("data-order")) + 1;
+						} catch(e) {}
+
+						//modify layer
+						sourceLi.children("dl").attr("data-order", dataOrder);
+
+						//modify order
+						sourceLi.children("dl").attr("data-parentId", parentId);
+
+						loadNodeLayer(sourceLi, dataLayer);
+
+						sourceLi.attr("modify", true);
+
+						if(targetUl.length <= 0) {
+							targetLi.append("<ul></ul>");
+							targetUl = targetLi.children('ul');
+						}
+						
+						if(typeof opts.dropNodeEvent==='function') {
+							if(!opts.dropNodeEvent(targetUl , sourceLi ,opts ,$treeBox)){
+								return false;
+							}
+						}
+						else targetUl.append(sourceLi);
+						
+						//Removes any empty lists
+						if(sourceUl.children().length === 0) {
+							sourceUl.remove();
+						}
+
+					}); // handleDropEvent
+
+				} // Drag and drop
+				
+				if(typeof opts.finishEvent==='function'){
+					opts.finishEvent(opts);
+				}
+				return opts.chartElement;
+			}
+			// Option defaults
+		$.fn.jOrgChart.defaults = {
+			//依赖到父节点
+			chartElement: '',
+
+			depth: -1,
+
+			chart: '',
+
+			chartClass: "jOrgChart",
+			
+			//是否开启拖拽功能
+			dragAndDrop: false,
+			
+			//事件集合
+			eventSet: null,
+			
+			//最高层级
+			maxLayer: null,
+			
+			//弹框信息
+			alert: null,
+			
+			hasRoot:true,
+
+			//重新构造树
+			repeatTree: true,
+			//当加载完毕后执行方法
+			finishEvent:null,
+			
+			//当节点拖拽到某个节点下，放下时触发事件
+			dropNodeEvent:null  //function(targetUl , sourceLi , opts){}
+			,
+			//当置于左右节点，时触发事件,//事件触发 必须返回true才执行之后的操作 function( sourceLi , targetLi ,dataOrder) dataOrder 调整完的 位置
+			dropBrotherEvent:null,
+			//每次遍历的时候 会把子结点数据带入到数据中
+			//用于自定义更改数据 dom为当前li节点 格式必须正确 否则加载会错误
+			createChartTree: function( item, dom ,parentId,index) {
+				/****定义接收数据格式 开始**/
+				var data = {
+					ChildItems: [],
+					IndId: 1,
+					LDepId: 1,
+					LParentId: 0,
+					SDepName: "",
+					SPath: "1|",
+					SamId: 1,
+					ScaId: 1
+				};
+				return data;
+			},
+			data: {}
+		};
+
+		function buildNode($node, $appendTo, level, opts, order, currentnodenum, $treeBox) {
+			if(level == null) level = 0;
+			var $table = $("<table cellpadding='0' cellspacing='0' border='0'/>");
+			var $tbody = $("<tbody/>");
+			$node.attr("data-layer", level);
+			//console.log(level);
+			// Construct the node container(s)
+			var $nodeRow = $("<tr/>").addClass("node-cells");
+			var $nodeCell = $("<td/>").addClass("node-cell").attr("colspan", 2);
+			//Exclude Delete node
+			var $childNodes = $node.children("ul:first").children("li:not(.deleteNode)");
+			var $nodeDiv;
+			if($childNodes.length == 0) {
+				$node.children("dl").find(".nd-node-display").hide();
+			} else {
+				$node.children("dl").find(".nd-node-display").show();
+			}
+			if($childNodes.length > 1) {
+				$nodeCell.attr("colspan", $childNodes.length * 2);
+			}
+			// Draw the node
+			// Get the contents - any markup except li and ul allowed
+			var $nodeContent = $node.clone().children("ul,li")
+				.remove()
+				.end()
+				.html();
+
+			//Increaments the node count which is used to link the source list and the org chart
+			nodeCount++;
+			$node.data("tree-node", nodeCount);
+			$nodeDiv = $("<div>").addClass("node")
+				.data("tree-node", nodeCount)
+				.append($nodeContent);
+			$nodeRow.hover(function() {
+				itemNode = $nodeRow;
+			}, function() {
+				itemNode = null;
+			});
+
+			// Expand and contract nodes
+			if($childNodes.length > 0) {
+				$nodeDiv.find("dt,.btn-tree").click(function() {
+					var $this = $(this).closest("div");
+					var $tr = $this.closest("tr");
+					if($tr.hasClass('contracted')) {
+						$this.css('cursor', 'n-resize');
+						$tr.removeClass('contracted').addClass('expanded');
+						$tr.nextAll("tr").css('visibility', '');
+						// Update the <li> appropriately so that if the tree redraws collapsed/non-collapsed nodes
+						// maintain their appearance
+						$node.removeClass('collapsed');
+						$this.find(".btn-tree").removeClass("tree-open");
+						$this.find(".btn-tree").addClass("tree-close");
+					} else {
+						$this.css('cursor', 's-resize');
+						$tr.removeClass('expanded').addClass('contracted');
+						$tr.nextAll("tr").css('visibility', 'hidden');
+						$node.addClass('collapsed');
+						$this.find(".btn-tree").addClass("tree-open");
+						$this.find(".btn-tree").removeClass("tree-close");
+					}
+				});
+			}
+			$nodeCell.append($nodeDiv);
+
+			if(level != "0") {
+				var before = "";
+				var after = "";
+				if(currentnodenum && currentnodenum % 2 == 1) {
+					before = $('<div  data-position="left" class="node-sort node-sort-left hide"><div class="node-sort-box"></div></div>');
+					after = $('<div  data-position="right" class="node-sort node-sort-right hide"><div class="node-sort-box" ></div></div>');
+					$nodeDiv.before(before);
+					$nodeDiv.after(after);
+				} else if(currentnodenum && currentnodenum % 2 == 0 && order == "last") {
+					after = $('<div class="node-sort node-sort-right hide" data-position="right"><div class="node-sort-box"  ></div></div>');
+					$nodeDiv.after(after);
+				}
+				if(order == "first" || order == "only") {
+					before.addClass("first-node");
+					try {
+						$nodeDiv.width();
+						//var left = (parseInt($nodeDiv.closest(".node-cell").width())-158)/2;
+						// before.css("left", left+"px");
+					} catch(e) {}
+				}
+				if(order == "last" || order == "only") {
+					after.addClass("last-node");
+					try {
+						//var right =(parseInt($nodeDiv.closest(".node-cell").width())-158)/2;
+						// before.css("right",right+"px");
+					} catch(e) {}
+				}
+			}
+			$nodeRow.append($nodeCell);
+			$tbody.append($nodeRow);
+
+			if($childNodes.length > 0) {
+				// if it can be expanded then change the cursor
+				$nodeDiv.css('cursor', 'n-resize');
+
+				// recurse until leaves found (-1) or to the level specified
+				if(opts.depth == -1 || (level + 1 < opts.depth)) {
+					var $downLineRow = $("<tr/>");
+					var $downLineCell = $("<td/>").attr("colspan", $childNodes.length * 2);
+					$downLineRow.append($downLineCell);
+
+					// draw the connecting line from the parent node to the horizontal line 
+					$downLine = $("<div></div>").addClass("line down");
+					$downLineCell.append($downLine);
+					$tbody.append($downLineRow);
+
+					// Draw the horizontal lines
+					var $linesRow = $("<tr/>");
+					$childNodes.each(function() {
+						var $left = $("<td>&nbsp;</td>").addClass("line left top");
+						var $right = $("<td>&nbsp;</td>").addClass("line right top");
+						$linesRow.append($left).append($right);
+					});
+
+					// horizontal line shouldn't extend beyond the first and last child branches
+					$linesRow.find("td:first")
+						.removeClass("top")
+						.end()
+						.find("td:last")
+						.removeClass("top");
+
+					$tbody.append($linesRow);
+					var $childNodesRow = $("<tr/>");
+					$childNodes.each(function(i, v) {
+						var $td = $("<td class='node-container'/>");
+						$td.attr("colspan", 2);
+
+						var order = "";
+						if(i == 0) order = "first";
+						if(i == ($childNodes.length - 1)) order = "last";
+						if($childNodes.length == 1) order = "only";
+
+						// recurse through children lists and items
+						buildNode($(this), $td, level + 1, opts, order, i + 1, $treeBox);
+
+						$childNodesRow.append($td);
+					});
+
+				}
+				$tbody.append($childNodesRow);
+			}
+
+			// any classes on the LI element get copied to the relevant node in the tree
+			// apart from the special 'collapsed' class, which collapses the sub-tree at this point
+			if($node.attr('class') != undefined) {
+				var classList = $node.attr('class').split(/\s+/);
+				$.each(classList, function(index, item) {
+					if(item == 'collapsed') {
+						$nodeRow.find(".btn-tree").addClass("tree-open");
+						$nodeRow.find(".btn-tree").removeClass("tree-close");
+						$nodeRow.nextAll('tr').css('visibility', 'hidden');
+						$nodeRow.removeClass('expanded');
+						$nodeRow.addClass('contracted');
+						$nodeDiv.css('cursor', 's-resize');
+					} else {
+						$nodeDiv.addClass(item);
+					}
+				});
+			}
+			$table.append($tbody);
+			$appendTo.append($table);
+
+			$nodeDiv.hover(function() {
+				if($(this).find("dt").hasClass("not-hover"))return;
+				$(this).find("dt").addClass("zuzhijiagou-hover");
+				$nodeDiv.find(".nd-node-handle").show();
+			}, function() {
+				if($(this).find("dt").hasClass("not-hover"))return;
+				$(this).find("dt").removeClass("zuzhijiagou-hover");
+				$nodeDiv.find(".nd-node-handle").hide();
+			});
+
+			if(typeof opts.eventSet === 'function') {
+				//处理结点操作
+				opts.eventSet($nodeDiv, opts, $treeBox, copy_node);
+			}
+
+			return $node;
+		}
+	})(jQuery)
+}))

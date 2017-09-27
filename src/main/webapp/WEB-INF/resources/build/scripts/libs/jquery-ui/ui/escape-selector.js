@@ -1,7 +1,21 @@
-!function(e){"function"==typeof define&&define.amd?
-// AMD. Register as an anonymous module.
-define(["jquery","./version"],e):
-// Browser globals
-e(jQuery)}(function($){
+( function( factory ) {
+	if ( typeof define === "function" && define.amd ) {
+
+		// AMD. Register as an anonymous module.
+		define( [ "jquery", "./version" ], factory );
+	} else {
+
+		// Browser globals
+		factory( jQuery );
+	}
+} ( function( $ ) {
+
 // Internal use only
-return $.ui.escapeSelector=function(){return function(e){return e.replace(/([!"#$%&'()*+,.\/:;<=>?@[\]^`{|}~])/g,"\\$1")}}()});
+return $.ui.escapeSelector = ( function() {
+	var selectorEscape = /([!"#$%&'()*+,./:;<=>?@[\]^`{|}~])/g;
+	return function( selector ) {
+		return selector.replace( selectorEscape, "\\$1" );
+	};
+} )();
+
+} ) );

@@ -1,8 +1,80 @@
-/****定义接收数据格式 开始**/
-/****定义接收数据格式 结束**/
+ /****定义接收数据格式 开始**/
+var data = {
+    ChildItems: [],
+    IndId: 1,
+    LDepId: 1,
+    LParentId: 0,
+    SDepName: "云办公",
+    SPath: "1|",
+    SamId: 1,
+    ScaId: 1
+};
+
+var nodehtml = '<li><dl class="nd-department-node"><dt><i class="zuzhijiagou iconfont" >&#xe657;</i></dt><dd class="nd-node-handle"><i class="nd-node-plus"></i><i class="nd-node-minus"></i></dd><dd class="nd-department-font">新建部门</dd><dd class="nd-node-display"><i class="btn-tree tree-close" style="cursor:auto;"></i></dd></dl></li>';
+var ahtml = '<a href="javascript:void(0);"></a>';
+
+ /****定义接收数据格式 结束**/
 //缩放功能
-function transformScale(d,e){if($.browser.mise&&parseInt($.browser.version)<=9)$(d).css("zoom",e);else{var a="scale("+e+","+e+")";$(d).css("-moz-transform",a),$(d).css("-webkit-transform",a),$(d).css("-o-transform",a),$(d).css("transform",a)}}
-//添加子节点
-function appendChildItems(d,e,a){var t=a+1;t>mlayer&&(mlayer=t),e&&e.length>0&&(d.append("<ul></ul>"),$.each(e,function(e,a){var r=a.LDepId||a.DepId,n="node"+(new Date).getTime()+"id"+r,l=$(nodehtml);l.addClass(n),l.children("dl").attr("data-id",r),l.children("dl").attr("data-layer",t),l.children("dl").attr("data-nodeClass",n),l.find(".nd-department-font").html(a.SDepName),d.children("ul").append(l);appendChildItems(l,a.ChildItems,t)}))}var data={ChildItems:[],IndId:1,LDepId:1,LParentId:0,SDepName:"云办公",SPath:"1|",SamId:1,ScaId:1},nodehtml='<li><dl class="nd-department-node"><dt><i class="zuzhijiagou iconfont" >&#xe657;</i></dt><dd class="nd-node-handle"><i class="nd-node-plus"></i><i class="nd-node-minus"></i></dd><dd class="nd-department-font">新建部门</dd><dd class="nd-node-display"><i class="btn-tree tree-close" style="cursor:auto;"></i></dd></dl></li>',ahtml='<a href="javascript:void(0);"></a>';require(["jquery","jquery-ui/ui/widgets/draggable","jquery-ui/ui/widgets/droppable","modules/orgtree/orgtree"],function($){$.browser.mise&&10==$.browser.version&&$(".org-container").addClass("ie10"),$("#chart").html('<ul id="org" style="display:none"></ul>');var d=data.LDepId||data.DepId,e="node"+(new Date).getTime()+"id"+d,a=$(nodehtml);a.addClass(e),a.find(".nd-node-minus").remove();mlayer=0,a.find(".zuzhijiagou").html("&#xe61d;"),a.children("dl").attr("data-nodeClass",e),a.children("dl").attr("data-Order",data.LOrder),a.children("dl").attr("data-id",d),a.children("dl").attr("data-layer",0),a.find(".nd-department-font").html(data.SDepName),appendChildItems(a,data.ChildItems,0,d),$("#org").html(a);
-//文档
-$("#org").jOrgChart({chartElement:"#chart",dragAndDrop:!0})});
+function transformScale(dom, val) {
+    if ($.browser.mise && parseInt($.browser.version) <= 9) {
+        $(dom).css("zoom", val);
+    } else {
+        var scaleSize = "scale(" + val + "," + val + ")";
+        $(dom).css("-moz-transform", scaleSize);
+        $(dom).css("-webkit-transform", scaleSize);
+        $(dom).css("-o-transform", scaleSize);
+        $(dom).css("transform", scaleSize);
+    }
+}
+
+ //添加子节点
+    function appendChildItems(parent, nodes, lay) {
+        var dataLayer = lay + 1;
+        if (dataLayer > mlayer) mlayer = dataLayer;
+        if (nodes && nodes.length > 0) {
+            parent.append("<ul></ul>");
+            $.each(nodes, function (i, v) {
+                var DepId = v.LDepId || v.DepId;
+                var nodeId = "node" + new Date().getTime() + 'id' + DepId;
+                var nodedom = $(nodehtml);
+                nodedom.addClass(nodeId);
+                nodedom.children("dl").attr("data-id", DepId);
+                nodedom.children("dl").attr("data-layer", dataLayer);
+                nodedom.children("dl").attr("data-nodeClass", nodeId);
+                nodedom.find(".nd-department-font").html(v.SDepName);
+                parent.children("ul").append(nodedom);
+                var flag = appendChildItems(nodedom, v.ChildItems, dataLayer);
+            });
+        }
+    }
+
+
+require(['jquery','jquery-ui/ui/widgets/draggable','jquery-ui/ui/widgets/droppable','modules/orgtree/orgtree'],function($){
+ 		if ($.browser.mise && $.browser.version == 10) {
+            $(".org-container").addClass("ie10")
+        }
+	 $("#chart").html('<ul id="org" style="display:none"></ul>');
+	    var DepId = data.LDepId || data.DepId;
+	    var nodeId = "node" + new Date().getTime() + 'id' + DepId;
+	    var nodedom = $(nodehtml);
+	    nodedom.addClass(nodeId);
+	    nodedom.find(".nd-node-minus").remove();
+	    var lay = 0;
+	    mlayer = 0;
+	    
+	    nodedom.find(".zuzhijiagou").html("&#xe61d;");
+	    nodedom.children("dl").attr("data-nodeClass", nodeId);
+	    nodedom.children("dl").attr("data-Order", data.LOrder);
+	    nodedom.children("dl").attr("data-id", DepId);
+	    nodedom.children("dl").attr("data-layer", lay);
+	    nodedom.find(".nd-department-font").html(data.SDepName);
+	    
+	    appendChildItems(nodedom, data.ChildItems, lay, DepId);
+	    
+	    $("#org").html(nodedom);
+	     //文档
+        var org = $("#org").jOrgChart({
+            chartElement: '#chart',
+            dragAndDrop: true
+        });
+});

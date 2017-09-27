@@ -1,0 +1,7 @@
+{
+	"baseUrl": "",
+	"paths": {
+		
+	},
+	"exclude": ["i18nForControl", "jquery", "avalon"]
+}

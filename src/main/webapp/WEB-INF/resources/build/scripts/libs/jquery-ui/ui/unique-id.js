@@ -6,12 +6,44 @@
  * Released under the MIT license.
  * http://jquery.org/license
  */
+
 //>>label: uniqueId
 //>>group: Core
 //>>description: Functions to generate and remove uniqueId's
 //>>docs: http://api.jqueryui.com/uniqueId/
-!function(i){"function"==typeof define&&define.amd?
-// AMD. Register as an anonymous module.
-define(["jquery","./version"],i):
-// Browser globals
-i(jQuery)}(function($){return $.fn.extend({uniqueId:function(){var i=0;return function(){return this.each(function(){this.id||(this.id="ui-id-"+ ++i)})}}(),removeUniqueId:function(){return this.each(function(){/^ui-id-\d+$/.test(this.id)&&$(this).removeAttr("id")})}})});
+
+( function( factory ) {
+	if ( typeof define === "function" && define.amd ) {
+
+		// AMD. Register as an anonymous module.
+		define( [ "jquery", "./version" ], factory );
+	} else {
+
+		// Browser globals
+		factory( jQuery );
+	}
+} ( function( $ ) {
+
+return $.fn.extend( {
+	uniqueId: ( function() {
+		var uuid = 0;
+
+		return function() {
+			return this.each( function() {
+				if ( !this.id ) {
+					this.id = "ui-id-" + ( ++uuid );
+				}
+			} );
+		};
+	} )(),
+
+	removeUniqueId: function() {
+		return this.each( function() {
+			if ( /^ui-id-\d+$/.test( this.id ) ) {
+				$( this ).removeAttr( "id" );
+			}
+		} );
+	}
+} );
+
+} ) );

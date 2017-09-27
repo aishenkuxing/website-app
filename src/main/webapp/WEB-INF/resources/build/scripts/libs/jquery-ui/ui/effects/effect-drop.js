@@ -6,15 +6,64 @@
  * Released under the MIT license.
  * http://jquery.org/license
  */
+
 //>>label: Drop Effect
 //>>group: Effects
 //>>description: Moves an element in one direction and hides it at the same time.
 //>>docs: http://api.jqueryui.com/drop-effect/
 //>>demos: http://jqueryui.com/effect/
-!function(e){"function"==typeof define&&define.amd?
-// AMD. Register as an anonymous module.
-define(["jquery","../version","../effect"],e):
-// Browser globals
-e(jQuery)}(function($){return $.effects.define("drop","hide",function(e,t){var i,n=$(this),o=e.mode,f="show"===o,c=e.direction||"left",d="up"===c||"down"===c?"top":"left",u="up"===c||"left"===c?"-=":"+=",r="+="===u?"-=":"+=",a={opacity:0};$.effects.createPlaceholder(n),i=e.distance||n["top"===d?"outerHeight":"outerWidth"](!0)/2,a[d]=u+i,f&&(n.css(a),a[d]=r+i,a.opacity=1),
-// Animate
-n.animate(a,{queue:!1,duration:e.duration,easing:e.easing,complete:t})})});
+
+( function( factory ) {
+	if ( typeof define === "function" && define.amd ) {
+
+		// AMD. Register as an anonymous module.
+		define( [
+			"jquery",
+			"../version",
+			"../effect"
+		], factory );
+	} else {
+
+		// Browser globals
+		factory( jQuery );
+	}
+}( function( $ ) {
+
+return $.effects.define( "drop", "hide", function( options, done ) {
+
+	var distance,
+		element = $( this ),
+		mode = options.mode,
+		show = mode === "show",
+		direction = options.direction || "left",
+		ref = ( direction === "up" || direction === "down" ) ? "top" : "left",
+		motion = ( direction === "up" || direction === "left" ) ? "-=" : "+=",
+		oppositeMotion = ( motion === "+=" ) ? "-=" : "+=",
+		animation = {
+			opacity: 0
+		};
+
+	$.effects.createPlaceholder( element );
+
+	distance = options.distance ||
+		element[ ref === "top" ? "outerHeight" : "outerWidth" ]( true ) / 2;
+
+	animation[ ref ] = motion + distance;
+
+	if ( show ) {
+		element.css( animation );
+
+		animation[ ref ] = oppositeMotion + distance;
+		animation.opacity = 1;
+	}
+
+	// Animate
+	element.animate( animation, {
+		queue: false,
+		duration: options.duration,
+		easing: options.easing,
+		complete: done
+	} );
+} );
+
+} ) );

@@ -1,1 +1,32 @@
-!function(e,o){"function"==typeof define&&define.amd?define(["exports"],o):o("undefined"!=typeof exports?exports:e.dragscroll={})}(this,function(exports){var e=0,o=0;$(document).on("mousedown",".dragscroll",function(n){pushed=1,$(".container").css("cursor","url('/Areas/Theme/default/org/img/palm16x16.ico'),auto"),e=n.clientX,o=n.clientY}),$(document).on("mouseup",function(e){pushed=0,$(".container").css("cursor","url('/Areas/Theme/default/org/img/fist16x16.ico'),auto")}),$(document).on("mousemove",function(n){var r=$(".dragscroll");scroller=r[0],pushed&&(scroller.scrollLeft-=-e+(e=n.clientX),scroller.scrollTop-=-o+(o=n.clientY))})});
+(function (root, factory) {
+    if (typeof define === 'function' && define.amd) {
+        define(['exports'], factory);
+    } else if (typeof exports !== 'undefined') {
+        factory(exports);
+    } else {
+        factory((root.dragscroll = {}));
+    }
+}(this, function (exports) {
+    var lastClientX = 0;
+    var lastClientY = 0
+    $(document).on("mousedown", '.dragscroll', function (e) {
+        pushed = 1;
+        $(".container").css("cursor", "url('/Areas/Theme/default/org/img/palm16x16.ico'),auto");
+        lastClientX = e.clientX;
+        lastClientY = e.clientY;
+    });
+    $(document).on("mouseup", function (e) {
+        pushed = 0;
+        $(".container").css("cursor", "url('/Areas/Theme/default/org/img/fist16x16.ico'),auto");
+    });
+    $(document).on("mousemove", function (e) {
+        var dragged = $('.dragscroll');
+        scroller = dragged[0];
+        if (pushed) {
+            scroller.scrollLeft -=
+                (-lastClientX + (lastClientX = e.clientX));
+            scroller.scrollTop -=
+                (-lastClientY + (lastClientY = e.clientY));
+        }
+    });
+}));

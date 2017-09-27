@@ -1,1 +1,4 @@
-function aa(){return 2}console.log(aa());
+console.log(aa());
+function aa(){
+	return 2;
+}

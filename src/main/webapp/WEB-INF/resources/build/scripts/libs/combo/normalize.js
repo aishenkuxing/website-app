@@ -1,19 +1,108 @@
-define(function(){function t(t,i,e){if(t.match(a)||t.match(n))return t;t=u(t);
-// if toBase specifies a protocol path, ensure this is the same protocol as fromBase, if not
-// use absolute path at fromBase
-var o=e.match(n),c=i.match(n);return!c||o&&o[1]==c[1]&&o[2]==c[2]?s(r(t,i),e):r(t,i)}
-// given a relative URI, calculate the absolute URI
-function r(t,r){
-// absolute urls are left in tact
-if("./"==t.substr(0,2)&&(t=t.substr(2)),t.match(a)||t.match(n))return t;var s=r.split("/"),u=t.split("/");for(s.pop();curPart=u.shift();)".."==curPart?s.pop():s.push(curPart);return s.join("/")}
-// given an absolute URI, calculate the relative URI
-function s(t,r){
-// reduce base and uri strings to just their difference string
-var s=r.split("/");for(s.pop(),r=s.join("/")+"/",i=0;r.substr(i,1)==t.substr(i,1);)i++;for(;"/"!=r.substr(i,1);)i--;r=r.substr(i+1),t=t.substr(i+1),
-// each base folder difference is thus a backtrack
-s=r.split("/");var u=t.split("/");for(out="";s.shift();)out+="../";
-// finally add uri parts
-for(;curPart=u.shift();)out+=curPart+"/";return out.substr(0,out.length-1)}
-// regular expression for removing double slashes
-// eg http://www.example.com//my///url/here -> http://www.example.com/my/url/here
-var u=function(t){return t.replace(/([^:])\/+/g,"$1/")},n=/[^\:\/]*:\/\/([^\/])*/,a=/^(\/|data:)/,e=function(r,s,n){s=u(s),n=u(n);for(var i,a,r,e=/@import\s*("([^"]*)"|'([^']*)')|url\s*\((?!#)\s*(\s*"([^"]*)"|'([^']*)'|[^\)]*\s*)\s*\)/gi;i=e.exec(r);){a=i[3]||i[2]||i[5]||i[6]||i[4];var o;o=t(a,s,n);var c=i[5]||i[6]?1:0;r=r.substr(0,e.lastIndex-a.length-c-1)+o+r.substr(e.lastIndex-c-1),e.lastIndex=e.lastIndex+(o.length-a.length)}return r};return e.convertURIBase=t,e.absoluteURI=r,e.relativeURI=s,e});
+define(function() {
+  
+  // regular expression for removing double slashes
+  // eg http://www.example.com//my///url/here -> http://www.example.com/my/url/here
+  var slashes = /([^:])\/+/g
+  var removeDoubleSlashes = function(uri) {
+    return uri.replace(slashes, '$1/');
+  }
+
+  // given a relative URI, and two absolute base URIs, convert it from one base to another
+  var protocolRegEx = /[^\:\/]*:\/\/([^\/])*/;
+  var absUrlRegEx = /^(\/|data:)/;
+  function convertURIBase(uri, fromBase, toBase) {
+    if (uri.match(absUrlRegEx) || uri.match(protocolRegEx))
+      return uri;
+    uri = removeDoubleSlashes(uri);
+    // if toBase specifies a protocol path, ensure this is the same protocol as fromBase, if not
+    // use absolute path at fromBase
+    var toBaseProtocol = toBase.match(protocolRegEx);
+    var fromBaseProtocol = fromBase.match(protocolRegEx);
+    if (fromBaseProtocol && (!toBaseProtocol || toBaseProtocol[1] != fromBaseProtocol[1] || toBaseProtocol[2] != fromBaseProtocol[2]))
+      return absoluteURI(uri, fromBase);
+    
+    else {
+      return relativeURI(absoluteURI(uri, fromBase), toBase);
+    }
+  };
+  
+  // given a relative URI, calculate the absolute URI
+  function absoluteURI(uri, base) {
+    if (uri.substr(0, 2) == './')
+      uri = uri.substr(2);
+
+    // absolute urls are left in tact
+    if (uri.match(absUrlRegEx) || uri.match(protocolRegEx))
+      return uri;
+    
+    var baseParts = base.split('/');
+    var uriParts = uri.split('/');
+    
+    baseParts.pop();
+    
+    while (curPart = uriParts.shift())
+      if (curPart == '..')
+        baseParts.pop();
+      else
+        baseParts.push(curPart);
+    
+    return baseParts.join('/');
+  };
+
+
+  // given an absolute URI, calculate the relative URI
+  function relativeURI(uri, base) {
+    
+    // reduce base and uri strings to just their difference string
+    var baseParts = base.split('/');
+    baseParts.pop();
+    base = baseParts.join('/') + '/';
+    i = 0;
+    while (base.substr(i, 1) == uri.substr(i, 1))
+      i++;
+    while (base.substr(i, 1) != '/')
+      i--;
+    base = base.substr(i + 1);
+    uri = uri.substr(i + 1);
+
+    // each base folder difference is thus a backtrack
+    baseParts = base.split('/');
+    var uriParts = uri.split('/');
+    out = '';
+    while (baseParts.shift())
+      out += '../';
+    
+    // finally add uri parts
+    while (curPart = uriParts.shift())
+      out += curPart + '/';
+    
+    return out.substr(0, out.length - 1);
+  };
+  
+  var normalizeCSS = function(source, fromBase, toBase) {
+
+    fromBase = removeDoubleSlashes(fromBase);
+    toBase = removeDoubleSlashes(toBase);
+
+    var urlRegEx = /@import\s*("([^"]*)"|'([^']*)')|url\s*\((?!#)\s*(\s*"([^"]*)"|'([^']*)'|[^\)]*\s*)\s*\)/ig;
+    var result, url, source;
+
+    while (result = urlRegEx.exec(source)) {
+      url = result[3] || result[2] || result[5] || result[6] || result[4];
+      var newUrl;
+      newUrl = convertURIBase(url, fromBase, toBase);
+      var quoteLen = result[5] || result[6] ? 1 : 0;
+      source = source.substr(0, urlRegEx.lastIndex - url.length - quoteLen - 1) + newUrl + source.substr(urlRegEx.lastIndex - quoteLen - 1);
+      urlRegEx.lastIndex = urlRegEx.lastIndex + (newUrl.length - url.length);
+    }
+    
+    return source;
+  };
+  
+  normalizeCSS.convertURIBase = convertURIBase;
+  normalizeCSS.absoluteURI = absoluteURI;
+  normalizeCSS.relativeURI = relativeURI;
+  
+  return normalizeCSS;
+});
+//>>excludeEnd('excludeRequireCss')

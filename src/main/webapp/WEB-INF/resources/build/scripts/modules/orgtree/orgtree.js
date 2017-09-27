@@ -1,111 +1,665 @@
-define(["jquery"],function($){var e=0,t=!1,d={};
-//关闭树操作
-d.closeTree=null,modify=1,function(){function n(e,t){
-//modify parentId
-e.children("dl").attr("data-layer",t),e.children("ul").children("li").each(function(e,d){n($(this),t+1)})}function a(e,t){t<1&&(t=1);var d=t;return e.children("ul").children("li").each(function(e,n){var r=a($(this),t+1);d<r&&(d=r)}),d}
-// Method that recursively builds the tree
-function r(e,d,n,a,l,s){var c=$("<table cellpadding='0' cellspacing='0' border='0'/>"),h=$("<tbody/>");e.attr("data-layer",n);
-//console.log(level);
-// Construct the node container(s)
-var f,p=$("<tr/>").addClass("node-cells"),v=$("<td/>").addClass("node-cell").attr("colspan",2),u=e.children("ul:first").children("li:not(.deleteNode)");0==u.length?e.children("dl").find(".nd-node-display").hide():e.children("dl").find(".nd-node-display").show(),u.length>1&&v.attr("colspan",2*u.length);
-// Draw the node
-// Get the contents - any markup except li and ul allowed
-var m=e.clone().children("ul,li").remove().end().html();if(
-//Increaments the node count which is used to link the source list and the org chart
-o++,e.data("tree-node",o),f=$("<div>").addClass("node").data("tree-node",o).append(m),p.hover(function(){i=p},function(){i=null}),
-// Expand and contract nodes
-u.length>0&&f.find("dt,.btn-tree").click(function(){var t=$(this).closest("div"),d=t.closest("tr");d.hasClass("contracted")?(t.css("cursor","n-resize"),d.removeClass("contracted").addClass("expanded"),d.nextAll("tr").css("visibility",""),
-// Update the <li> appropriately so that if the tree redraws collapsed/non-collapsed nodes
-// maintain their appearance
-e.removeClass("collapsed"),t.find(".btn-tree").removeClass("tree-open"),t.find(".btn-tree").addClass("tree-close")):(t.css("cursor","s-resize"),d.removeClass("expanded").addClass("contracted"),d.nextAll("tr").css("visibility","hidden"),e.addClass("collapsed"),t.find(".btn-tree").addClass("tree-open"),t.find(".btn-tree").removeClass("tree-close"))}),v.append(f),"0"!=n){var g="",C="";if(s&&s%2==1?(g=$('<div  data-position="left" class="node-sort node-sort-left hide"><div class="node-sort-box"></div></div>'),C=$('<div  data-position="right" class="node-sort node-sort-right hide"><div class="node-sort-box" ></div></div>'),f.before(g),f.after(C)):s&&s%2==0&&"last"==l&&(C=$('<div class="node-sort node-sort-right hide" data-position="right"><div class="node-sort-box"  ></div></div>'),f.after(C)),"first"==l||"only"==l){g.addClass("first-node");try{f.width()}catch(e){}}if("last"==l||"only"==l){C.addClass("last-node");try{}catch(e){}}}if(p.append(v),h.append(p),u.length>0){
-// recurse until leaves found (-1) or to the level specified
-if(
-// if it can be expanded then change the cursor
-f.css("cursor","n-resize"),a.depth==-1||n+1<a.depth){var b=$("<tr/>"),y=$("<td/>").attr("colspan",2*u.length);b.append(y),
-// draw the connecting line from the parent node to the horizontal line 
-$downLine=$("<div></div>").addClass("line down"),y.append($downLine),h.append(b);
-// Draw the horizontal lines
-var x=$("<tr/>");u.each(function(){var e=$("<td>&nbsp;</td>").addClass("line left top"),t=$("<td>&nbsp;</td>").addClass("line right top");x.append(e).append(t)}),
-// horizontal line shouldn't extend beyond the first and last child branches
-x.find("td:first").removeClass("top").end().find("td:last").removeClass("top"),h.append(x);var j=$("<tr/>");u.each(function(e,t){var d=$("<td class='node-container'/>");d.attr("colspan",2);var i="";0==e&&(i="first"),e==u.length-1&&(i="last"),1==u.length&&(i="only"),
-// recurse through children lists and items
-r($(this),d,n+1,a,i,e+1),j.append(d)})}h.append(j)}
-// any classes on the LI element get copied to the relevant node in the tree
-// apart from the special 'collapsed' class, which collapses the sub-tree at this point
-if(void 0!=e.attr("class")){var w=e.attr("class").split(/\s+/);$.each(w,function(e,t){"collapsed"==t?(p.find(".btn-tree").addClass("tree-open"),p.find(".btn-tree").removeClass("tree-close"),p.nextAll("tr").css("visibility","hidden"),p.removeClass("expanded"),p.addClass("contracted"),f.css("cursor","s-resize")):f.addClass(t)})}/* Prevent trees collapsing if a link inside a node is clicked */
-//add Node
-//delete Node
-//modify Node
-return c.append(h),d.append(c),f.find(".nd-node-plus").click(function(e){if(0==modify)return $(".node-ui-text").focus(),!1;var d=$(this).closest("dl"),n=parseInt(d.attr("data-layer"))+1;if(n>5)
-//ND.msgbox.show("部门层级最多限制5层!", 2);
-return!1;$("div.node").draggable("disable");var r=d.attr("data-nodeClass"),i=d.attr("data-id"),l=$(nodehtml),o="newnode"+(new Date).getTime();l.addClass(o),l.children("dl").attr("data-nodeClass",o),l.find(".nd-department-font").html("");
-//target li
-var s=$("#org").find("."+r);s.children("ul").length<=0&&s.append("<ul></ul>");var c=1,h=s.children("ul").find("li:last");try{null!=h.children("dl").attr("data-order")&&(c=parseInt(h.children("dl").attr("data-order"))+1)}catch(e){}nodedomdl=l.children("dl"),
-//modify layer
-nodedomdl.attr("data-layer",n),
-//modify order
-nodedomdl.attr("data-order",c),
-//modify parentId
-nodedomdl.attr("data-parentId",i),s.children("ul").append(l),l.attr("newly",!0),$(a.chartElement).children(".jOrgChart").remove(),$this.jOrgChart(a),$(a.chartElement).children(".jOrgChart").find("."+o).find(".nd-department-font").click(),modifyItem=!0,modify=1,t=!0,e.stopPropagation()}),f.find(".nd-node-minus").click(function(e){if(delNode=$(this),0==modify){var d=$(".node-ui-text").closest("dl").attr("data-nodeclass"),n=$(this).closest("dl").attr("data-nodeclass");if(!t||d!=n)return $(".node-ui-text").focus(),!1;ND.msgbox.hide();var n=delNode.closest("dl").attr("data-nodeClass");
-//delete node and it's children node,identification delete as true
-$("#org").find("."+n).attr("delete",!0),$("#org").find("."+n).addClass("deleteNode"),$("#org").find("."+n).find("li").attr("delete",!0),$("#org").find("."+n).find("li").addClass("deleteNode"),$(a.chartElement).children(".jOrgChart").remove(),$this.jOrgChart(a),t=!1,modify=1}else{var r=f.find(".nd-department-font").html();confirm("确认要删除"+r+" 部门吗？(同时也会删除该部门下所有子部门)所有被删除部门的成员将会自动移至未分配列表",function(){var e=delNode.closest("dl").attr("data-nodeClass");
-//delete node and it's children node,identification delete as true
-$("#org").find("."+e).attr("delete",!0),$("#org").find("."+e).addClass("deleteNode"),$("#org").find("."+e).find("li").attr("delete",!0),$("#org").find("."+e).find("li").addClass("deleteNode"),$(a.chartElement).children(".jOrgChart").remove(),$this.jOrgChart(a)},null,null,360,170)}
-//$(this).closest("table").closest("tbody").children("tr").first().nextAll().remove();
-modifyItem=!0,e.stopPropagation()}),f.hover(function(){$(this).find("dt").addClass("zuzhijiagou-hover"),f.find(".nd-node-handle").show()},function(){$(this).find("dt").removeClass("zuzhijiagou-hover"),f.find(".nd-node-handle").hide()}),f.find(".nd-department-font").click(function(e){var d=$(this);
-//is check now,so non trigger event 
-if(!($(this).children(".node-ui-text").length>0)){
-//remenber old val
-var n=d.closest("dl");if(!(n.attr("data-layer")<=0)){
-//状态改变
-if(0==modify)return $(".node-ui-text").focus(),!1;var a=d.text(),r=$('<input class="node-ui-text" maxlength="50"/>');r.val(a),d.html(r),r.focus(),$("div.node").draggable("disable"),modify=0,r.select(),$(document).keyup(function(e){var t=r.val();if(e&&13==e.keyCode){if(""==$.trim(t))
-//reduction old val 
-//ND.msgbox.show("部门名称不能为空!", 2);
-return r.val(a),void r.focus();r.blur()}}),r.blur(function(i){var l=$(this).val();if(""==$.trim(l))
-//reduction old val 
-//ND.msgbox.show("部门名称不能为空!", 2);
-return r.val(a),modify=0,void r.focus();var o=!1,s=n.attr("data-nodeClass");if(
-//is repeat return false
-$.each($("#org").find("."+s).closest("ul").children("li:not(."+s+")").not(".deleteNode").children("dl").find(".nd-department-font"),function(e,t){if($.trim($(this).html())==$.trim(l))return o=!0,!1}),o)
-//reduction old val 
-//ND.msgbox.show("同级部门不能重复!", 2);
-return $(this).val(a),modify=0,void r.focus();var s=$(this).closest("dl").attr("data-nodeClass");
-//set permanent val
-$("#org").find("."+s).find(".nd-department-font").text(l),$("#org").find("."+s).attr("modify",!0),d.text(l),$("div.node").draggable("enable"),modifyItem=!0,t=!1,modify=1,e.stopPropagation()})}}}),$this}
-//整合拖拽时停止 拖动冲突
-var i=null,l=!1;$.fn.jOrgChart=function(t){var i=$.extend({},$.fn.jOrgChart.defaults,t),o=$(i.chartElement);
-// build the tree
-$this=$(this);var s=$("<div class='"+i.chartClass+"'/>");$this.is("ul")?r($this.find("li:first"),s,0,i):$this.is("li")&&r($this,s,0,i),o.append(s),
-//加载完毕
-$(".first-node").each(function(e,t){try{var d=$(this).closest(".node-cell"),n=d.children(".node");left=(d.width()-n.width())/2-40,$(this).css({left:left+"px"})}catch(e){}}),$(".last-node").each(function(e,t){try{var d=$(this).closest(".node-cell"),n=d.children(".node");right=(d.width()-n.width())/2-40,$(this).css({right:right+"px"})}catch(e){}}),$("div.node").on("mouseover mousedown",function(){e=0,$(".build-tree-canvas").removeClass("dragscroll")}),$("div.node").on("mouseout",function(){$(".build-tree-canvas").addClass("dragscroll")}),
-// add drag and drop if enabled
-i.dragAndDrop&&($("div.node").draggable({cursor:"move",distance:40,helper:"clone",opacity:.8,revert:"invalid",revertDuration:100,snap:"div.node.expanded",snapMode:"inner",stack:"div.node",handle:"dt",scrollSpeed:10,appendTo:".container",helper:function(){return'<dl class="nd-department-node nd-department-node-hover" style="position:relative;" ><dt style="margin-left:80px;" ><i class="zuzhijiagou iconfont">'+$(this).find(".zuzhijiagou").html()+'</i></dt><dd class="nd-department-font" style="margin-left:80px;">'+$(this).find(".nd-department-font").html()+"</dd></dl>"}}),$("div.node").droppable({accept:".node",activeClass:"drag-active",hoverClass:"drop-hover"}),$("div.node-sort").droppable({accept:".node-sort,.node",activeClass:"drag-active",hoverClass:"drop-hover",over:function(e,t){},drop:function(e,t){var d=$(this).parent().find(".nd-department-node").attr("data-nodeclass"),r=$("#org").find("li."+d),i=t.draggable.data("tree-node"),l=$this.find("li").filter(function(){return $(this).data("tree-node")===i});if(!l.hasClass(d)){var o=l.parent("ul"),s=r.children("dl").data("layer");if(s+a(l,0)>5)return void ND.msgbox.show("部门层级最多支持5层！",2);var c=r.children("dl").attr("data-parentId"),h=r.children("dl").attr("data-order"),f=l.children("dl").attr("data-nodeClass"),p=l.children("dl").find(".nd-department-font").html();if(repeat=!1,$.each($("#org").find("."+d).closest("ul").children("li:not(."+f+")").children("dl").find(".nd-department-font"),function(e,t){if($.trim($(this).html())==$.trim(p))return repeat=!0,!1}),repeat)
-//reduction old val 
-return void ND.msgbox.show("该部门下有同名部门！",2);
-//modify order
-l.children("dl").attr("data-parentId",c),
-//修改层数
-n(l,s),l.attr("modify",!0),
-//Removes any empty lists
-"left"==$(this).data("position")?r.before(l):(r.after(l),h++),l.children("dl").attr("data-order",h);var v=l.children("dl").data("nodeclass");$("#org").find("li."+v).nextAll().each(function(e,t){h++,$(this).children("dl").attr("data-order",h),$(this).attr("modify",!0)}),0===o.children().length&&o.remove()}}}),
-// Drag start event handler for nodes
-$("div.node").bind("dragstart",function(t,n){e=0,$(".build-tree-canvas").removeClass("dragscroll"),$(".node-sort").removeClass("hide");var a=$(this);a.parentsUntil(".node-container").find("*").filter(".node").droppable("disable"),a.parentsUntil(".node-container").find("*").filter(".node").first().addClass("nd-drag-dode"),a.find(".btn-tree").hasClass("tree-close")&&(d.closeTree=a.children("dl").attr("data-nodeclass"),a.find(".btn-tree").click())}),
-// Drag stop event handler for nodes
-$("div.node").bind("dragstop",function(t,n){e=0,modifyItem=!0,$(".build-tree-canvas").addClass("dragscroll"),$(".node-sort").addClass("hide"),
-//drop
-// if (itemDrop) {
-$(i.chartElement).children(".jOrgChart").remove(),$this.jOrgChart(i),d.closeTree&&($("div."+d.closeTree).find(".btn-tree").click(),d.closeTree=null)}),
-// Drop event handler for nodes
-$("div.node").bind("drop",function(t,d){e=0;var r=$(this).data("tree-node"),i=$this.find("li").filter(function(){return $(this).data("tree-node")===r}),o=i.children("ul"),s=d.draggable.data("tree-node"),c=$this.find("li").filter(function(){return $(this).data("tree-node")===s}),h=c.parent("ul"),f=i.children("dl").attr("data-nodeClass"),p=parseInt(i.children("dl").attr("data-layer"));if(p+a(c,0)>=5)return void ND.msgbox.show("部门层级最多支持5层！",2);var v=c.children("dl").find(".nd-department-font").html(),u=c.children("dl").attr("data-nodeClass");if(repeat=!1,$.each($("#org").find("."+f).children("ul").children("li:not(."+u+")").children("dl").find(".nd-department-font"),function(e,t){if($.trim($(this).html())==$.trim(v))return repeat=!0,!1}),repeat)
-//reduction old val 
-return void ND.msgbox.show("该部门下有同名部门！",2);l=!0;var m=1,g=i.children("dl").attr("data-id"),C=$("#org").find("."+f).children("ul").children("li:not(."+u+")").last();
-//调换的节点加1
-p+=1;try{null!=C.children("dl").attr("data-order")&&(m=parseInt(C.children("dl").attr("data-order"))+1)}catch(e){}
-//modify layer
-c.children("dl").attr("data-order",m),
-//modify order
-c.children("dl").attr("data-parentId",g),n(c,p),c.attr("modify",!0),o.length>0?o.append(c):(i.append("<ul></ul>"),i.children("ul").append(c)),
-//Removes any empty lists
-0===h.children().length&&h.remove()}))},
-// Option defaults
-$.fn.jOrgChart.defaults={chartElement:"body",depth:-1,chartClass:"jOrgChart",dragAndDrop:!1};var o=0}(jQuery)});
+define(['jquery'], function($) {
+	var pushed = 0;
+	var addItemSign = false;
+	var orgTree = {}
+		//关闭树操作
+	orgTree.closeTree = null;
+	modify = 1;
+	
+	(function() {
+		//整合拖拽时停止 拖动冲突
+		var ilevel = 1;
+		var itemNode = null;
+		var itemDrop = false;
+		var nodefontText = "";
+
+		function loadNodeLayer(sourceLi, num) {
+			//modify parentId
+			sourceLi.children("dl").attr("data-layer", num);
+
+			sourceLi.children("ul").children("li").each(function(i, v) {
+				loadNodeLayer($(this), num + 1);
+			});
+		}
+
+		function getMaxLayer(sourceLi, oldnum) {
+			if(oldnum < 1) oldnum = 1;
+			var newnum = oldnum;
+			sourceLi.children("ul").children("li").each(function(i, v) {
+				var num = getMaxLayer($(this), oldnum + 1);
+				if(newnum < num) newnum = num;
+			});
+			return newnum;
+		}
+		$.fn.jOrgChart = function(options) {
+			var opts = $.extend({}, $.fn.jOrgChart.defaults, options);
+			var $appendTo = $(opts.chartElement);
+
+			// build the tree
+			$this = $(this);
+			var $container = $("<div class='" + opts.chartClass + "'/>");
+			if($this.is("ul")) {
+				buildNode($this.find("li:first"), $container, 0, opts);
+			} else if($this.is("li")) {
+				buildNode($this, $container, 0, opts);
+			}
+
+			$appendTo.append($container);
+			//加载完毕
+
+			$(".first-node").each(function(i, v) {
+				try {
+					var td = $(this).closest(".node-cell");
+					var node = td.children(".node");
+					left = (td.width() - node.width()) / 2 - 40;
+					$(this).css({
+						left: left + "px"
+					})
+				} catch(e) {}
+			});
+			$(".last-node").each(function(i, v) {
+				try {
+					var td = $(this).closest(".node-cell");
+					var node = td.children(".node");
+					right = (td.width() - node.width()) / 2 - 40;
+					$(this).css({
+						right: right + "px"
+					})
+				} catch(e) {}
+			});
+			$('div.node').on("mouseover mousedown", function() {
+				pushed = 0;
+				$(".build-tree-canvas").removeClass("dragscroll");
+			});
+			$('div.node').on("mouseout", function() {
+				$(".build-tree-canvas").addClass("dragscroll");
+			});
+			// add drag and drop if enabled
+			if(opts.dragAndDrop) {
+				$('div.node').draggable({
+					cursor: 'move',
+					distance: 40,
+					helper: 'clone',
+					opacity: 0.8,
+					revert: 'invalid',
+					revertDuration: 100,
+					snap: 'div.node.expanded',
+					snapMode: 'inner',
+					stack: 'div.node',
+					handle: 'dt',
+					scrollSpeed: 10,
+					appendTo: '.container',
+					helper: function() {
+						return '<dl class="nd-department-node nd-department-node-hover" style="position:relative;" ><dt style="margin-left:80px;" ><i class="zuzhijiagou iconfont">' + $(this).find(".zuzhijiagou").html() + '</i></dt><dd class="nd-department-font" style="margin-left:80px;">' + $(this).find(".nd-department-font").html() + '</dd></dl>';
+					}
+				});
+
+				$('div.node').droppable({
+					accept: '.node',
+					activeClass: 'drag-active',
+					hoverClass: 'drop-hover'
+				});
+
+				$('div.node-sort').droppable({
+					accept: '.node-sort,.node',
+					activeClass: 'drag-active',
+					hoverClass: 'drop-hover',
+					over: function(event, ui) {
+						// console.log("over");
+					},
+					drop: function(event, ui) {
+						var targetClass = $(this).parent().find(".nd-department-node").attr("data-nodeclass");
+
+						var targetLi = $("#org").find("li." + targetClass);
+						//  console.log(ui.draggable)
+						var sourceID = ui.draggable.data("tree-node");
+
+						var sourceLi = $this.find("li").filter(function() {
+							return $(this).data("tree-node") === sourceID;
+						});
+
+						if(sourceLi.hasClass(targetClass)) return;
+
+						var sourceUl = sourceLi.parent('ul');
+
+						var dataLayer = targetLi.children("dl").data("layer");
+
+						var maxLayer = getMaxLayer(sourceLi, 0)
+
+						if((dataLayer + maxLayer) > 5) {
+							ND.msgbox.show("部门层级最多支持5层！", 2);
+							return;
+						}
+
+						var parentId = targetLi.children("dl").attr("data-parentId");
+
+						var dataOrder = targetLi.children("dl").attr("data-order");
+
+						var sourceDelcls = sourceLi.children("dl").attr("data-nodeClass");
+
+						var val = sourceLi.children("dl").find(".nd-department-font").html();
+
+						repeat = false;
+
+						$.each($("#org").find("." + targetClass).closest("ul").children("li:not(." + sourceDelcls + ")").children("dl").find(".nd-department-font"), function(i, v) {
+							if($.trim($(this).html()) == $.trim(val)) {
+								repeat = true;
+								return false;
+							}
+						});
+
+						if(repeat) {
+							//reduction old val 
+							ND.msgbox.show("该部门下有同名部门！", 2);
+							return;
+						}
+
+						//modify order
+						sourceLi.children("dl").attr("data-parentId", parentId);
+
+						//修改层数
+						loadNodeLayer(sourceLi, dataLayer)
+
+						sourceLi.attr("modify", true);
+
+						//Removes any empty lists
+
+						if($(this).data("position") == "left") {
+							targetLi.before(sourceLi);
+						} else {
+							targetLi.after(sourceLi);
+							dataOrder++;
+						}
+						sourceLi.children("dl").attr("data-order", dataOrder);
+
+						var clazz = sourceLi.children("dl").data("nodeclass");
+
+						var sourceLicurent = $("#org").find("li." + clazz);
+
+						sourceLicurent.nextAll().each(function(i, v) {
+							dataOrder++;
+							$(this).children("dl").attr("data-order", dataOrder);
+							$(this).attr("modify", true);
+						});
+
+						if(sourceUl.children().length === 0) {
+							sourceUl.remove();
+						}
+					}
+				});
+				// Drag start event handler for nodes
+				$('div.node').bind("dragstart", function handleDragStart(event, ui) {
+					pushed = 0;
+					$(".build-tree-canvas").removeClass("dragscroll");
+					$(".node-sort").removeClass("hide");
+					var sourceNode = $(this);
+					sourceNode.parentsUntil('.node-container')
+						.find('*')
+						.filter('.node')
+						.droppable('disable');
+					sourceNode.parentsUntil('.node-container')
+						.find('*')
+						.filter('.node').first().addClass('nd-drag-dode');
+					if(sourceNode.find(".btn-tree").hasClass("tree-close")) {
+						orgTree.closeTree = sourceNode.children("dl").attr("data-nodeclass");
+						sourceNode.find(".btn-tree").click();
+
+					}
+				});
+
+				// Drag stop event handler for nodes
+				$('div.node').bind("dragstop", function handleDragStop(event, ui) {
+					pushed = 0;
+					modifyItem = true;
+					$(".build-tree-canvas").addClass("dragscroll");
+					$(".node-sort").addClass("hide");
+					//drop
+					// if (itemDrop) {
+					$(opts.chartElement).children(".jOrgChart").remove();
+					$this.jOrgChart(opts);
+					if(orgTree.closeTree) {
+						$("div." + orgTree.closeTree).find(".btn-tree").click();
+						orgTree.closeTree = null;
+					}
+					//} else {
+					//    var sourceNode = $(this);
+					//    sourceNode.parentsUntil('.node-container')
+					//          .find('*')
+					//          .filter('.node').first().removeClass('nd-drag-dode');
+					//    itemDrop = false;
+					//}
+				});
+
+				// Drop event handler for nodes
+				$('div.node').bind("drop", function handleDropEvent(event, ui) {
+					pushed = 0;
+					var targetID = $(this).data("tree-node");
+					var targetLi = $this.find("li").filter(function() {
+						return $(this).data("tree-node") === targetID;
+					});
+					var targetUl = targetLi.children('ul');
+
+					var sourceID = ui.draggable.data("tree-node");
+					var sourceLi = $this.find("li").filter(function() {
+						return $(this).data("tree-node") === sourceID;
+					});
+					var sourceUl = sourceLi.parent('ul');
+
+					var targetDelcls = targetLi.children("dl").attr("data-nodeClass");
+
+					var dataLayer = parseInt(targetLi.children("dl").attr("data-layer"));
+
+					var maxLayer = getMaxLayer(sourceLi, 0)
+
+					if((dataLayer + maxLayer) >= 5) {
+						ND.msgbox.show("部门层级最多支持5层！", 2);
+						return;
+					}
+
+					var val = sourceLi.children("dl").find(".nd-department-font").html();
+
+					var sourceDelcls = sourceLi.children("dl").attr("data-nodeClass");
+
+					repeat = false;
+					$.each($("#org").find("." + targetDelcls).children("ul").children("li:not(." + sourceDelcls + ")").children("dl").find(".nd-department-font"), function(i, v) {
+						if($.trim($(this).html()) == $.trim(val)) {
+							repeat = true;
+							return false;
+						}
+					});
+
+					if(repeat) {
+						//reduction old val 
+						ND.msgbox.show("该部门下有同名部门！", 2);
+						return;
+					}
+					itemDrop = true;
+
+					var dataOrder = 1;
+					var parentId = targetLi.children("dl").attr("data-id");
+					var last = $("#org").find("." + targetDelcls).children("ul").children("li:not(." + sourceDelcls + ")").last();
+					//调换的节点加1
+					dataLayer = dataLayer + 1;
+
+					try {
+						if(last.children("dl").attr("data-order") != null) dataOrder = parseInt(last.children("dl").attr("data-order")) + 1;
+					} catch(e) {}
+					//modify layer
+					sourceLi.children("dl").attr("data-order", dataOrder);
+					//modify order
+					sourceLi.children("dl").attr("data-parentId", parentId);
+
+					loadNodeLayer(sourceLi, dataLayer);
+
+					sourceLi.attr("modify", true);
+
+					if(targetUl.length > 0) {
+						targetUl.append(sourceLi);
+					} else {
+						targetLi.append("<ul></ul>");
+						targetLi.children('ul').append(sourceLi);
+					}
+
+					//Removes any empty lists
+					if(sourceUl.children().length === 0) {
+						sourceUl.remove();
+					}
+
+				}); // handleDropEvent
+
+			} // Drag and drop
+		};
+
+		// Option defaults
+		$.fn.jOrgChart.defaults = {
+			chartElement: 'body',
+			depth: -1,
+			chartClass: "jOrgChart",
+			dragAndDrop: false
+		};
+
+		var nodeCount = 0;
+		// Method that recursively builds the tree
+
+		function buildNode($node, $appendTo, level, opts, order, currentnodenum) {
+			var $table = $("<table cellpadding='0' cellspacing='0' border='0'/>");
+			var $tbody = $("<tbody/>");
+			$node.attr("data-layer", level);
+			//console.log(level);
+			// Construct the node container(s)
+			var $nodeRow = $("<tr/>").addClass("node-cells");
+			var $nodeCell = $("<td/>").addClass("node-cell").attr("colspan", 2);
+			//Exclude Delete node
+			var $childNodes = $node.children("ul:first").children("li:not(.deleteNode)");
+			var $nodeDiv;
+			if($childNodes.length == 0) {
+				$node.children("dl").find(".nd-node-display").hide();
+			} else {
+				$node.children("dl").find(".nd-node-display").show();
+			}
+			if($childNodes.length > 1) {
+				$nodeCell.attr("colspan", $childNodes.length * 2);
+			}
+			// Draw the node
+			// Get the contents - any markup except li and ul allowed
+			var $nodeContent = $node.clone()
+				.children("ul,li")
+				.remove()
+				.end()
+				.html();
+
+			//Increaments the node count which is used to link the source list and the org chart
+			nodeCount++;
+			$node.data("tree-node", nodeCount);
+			$nodeDiv = $("<div>").addClass("node")
+				.data("tree-node", nodeCount)
+				.append($nodeContent);
+			$nodeRow.hover(function() {
+					itemNode = $nodeRow;
+				}, function() {
+					itemNode = null;
+				})
+				// Expand and contract nodes
+			if($childNodes.length > 0) {
+				$nodeDiv.find("dt,.btn-tree").click(function() {
+					var $this = $(this).closest("div");
+					var $tr = $this.closest("tr");
+					if($tr.hasClass('contracted')) {
+						$this.css('cursor', 'n-resize');
+						$tr.removeClass('contracted').addClass('expanded');
+						$tr.nextAll("tr").css('visibility', '');
+						// Update the <li> appropriately so that if the tree redraws collapsed/non-collapsed nodes
+						// maintain their appearance
+						$node.removeClass('collapsed');
+						$this.find(".btn-tree").removeClass("tree-open");
+						$this.find(".btn-tree").addClass("tree-close");
+					} else {
+						$this.css('cursor', 's-resize');
+						$tr.removeClass('expanded').addClass('contracted');
+						$tr.nextAll("tr").css('visibility', 'hidden');
+						$node.addClass('collapsed');
+						$this.find(".btn-tree").addClass("tree-open");
+						$this.find(".btn-tree").removeClass("tree-close");
+					}
+				});
+			}
+			$nodeCell.append($nodeDiv);
+			if(level != "0") {
+				var before = "";
+				var after = "";
+				if(currentnodenum && currentnodenum % 2 == 1) {
+					before = $('<div  data-position="left" class="node-sort node-sort-left hide"><div class="node-sort-box"></div></div>');
+					after = $('<div  data-position="right" class="node-sort node-sort-right hide"><div class="node-sort-box" ></div></div>');
+					$nodeDiv.before(before);
+					$nodeDiv.after(after);
+				} else if(currentnodenum && currentnodenum % 2 == 0 && order == "last") {
+					after = $('<div class="node-sort node-sort-right hide" data-position="right"><div class="node-sort-box"  ></div></div>');
+					$nodeDiv.after(after);
+				}
+				if(order == "first" || order == "only") {
+					before.addClass("first-node");
+					try {
+						$nodeDiv.width();
+						//var left = (parseInt($nodeDiv.closest(".node-cell").width())-158)/2;
+						// before.css("left", left+"px");
+					} catch(e) {}
+				}
+				if(order == "last" || order == "only") {
+					after.addClass("last-node");
+					try {
+						//var right =(parseInt($nodeDiv.closest(".node-cell").width())-158)/2;
+						// before.css("right",right+"px");
+					} catch(e) {}
+				}
+			}
+			$nodeRow.append($nodeCell);
+			$tbody.append($nodeRow);
+
+			if($childNodes.length > 0) {
+				// if it can be expanded then change the cursor
+				$nodeDiv.css('cursor', 'n-resize');
+
+				// recurse until leaves found (-1) or to the level specified
+				if(opts.depth == -1 || (level + 1 < opts.depth)) {
+					var $downLineRow = $("<tr/>");
+					var $downLineCell = $("<td/>").attr("colspan", $childNodes.length * 2);
+					$downLineRow.append($downLineCell);
+
+					// draw the connecting line from the parent node to the horizontal line 
+					$downLine = $("<div></div>").addClass("line down");
+					$downLineCell.append($downLine);
+					$tbody.append($downLineRow);
+
+					// Draw the horizontal lines
+					var $linesRow = $("<tr/>");
+					$childNodes.each(function() {
+						var $left = $("<td>&nbsp;</td>").addClass("line left top");
+						var $right = $("<td>&nbsp;</td>").addClass("line right top");
+						$linesRow.append($left).append($right);
+					});
+
+					// horizontal line shouldn't extend beyond the first and last child branches
+					$linesRow.find("td:first")
+						.removeClass("top")
+						.end()
+						.find("td:last")
+						.removeClass("top");
+
+					$tbody.append($linesRow);
+					var $childNodesRow = $("<tr/>");
+					$childNodes.each(function(i, v) {
+						var $td = $("<td class='node-container'/>");
+						$td.attr("colspan", 2);
+
+						var order = "";
+						if(i == 0) order = "first";
+						if(i == ($childNodes.length - 1)) order = "last";
+						if($childNodes.length == 1) order = "only";
+
+						// recurse through children lists and items
+						buildNode($(this), $td, level + 1, opts, order, i + 1);
+						$childNodesRow.append($td);
+					});
+
+				}
+				$tbody.append($childNodesRow);
+			}
+
+			// any classes on the LI element get copied to the relevant node in the tree
+			// apart from the special 'collapsed' class, which collapses the sub-tree at this point
+			if($node.attr('class') != undefined) {
+				var classList = $node.attr('class').split(/\s+/);
+				$.each(classList, function(index, item) {
+					if(item == 'collapsed') {
+						$nodeRow.find(".btn-tree").addClass("tree-open");
+						$nodeRow.find(".btn-tree").removeClass("tree-close");
+						$nodeRow.nextAll('tr').css('visibility', 'hidden');
+						$nodeRow.removeClass('expanded');
+						$nodeRow.addClass('contracted');
+						$nodeDiv.css('cursor', 's-resize');
+					} else {
+						$nodeDiv.addClass(item);
+					}
+				});
+			}
+			$table.append($tbody);
+			$appendTo.append($table);
+			/* Prevent trees collapsing if a link inside a node is clicked */
+
+			//add Node
+			$nodeDiv.find('.nd-node-plus').click(function(e) {
+				if(modify == 0) {
+					$(".node-ui-text").focus();
+					return false;
+				}
+				var parentdl = $(this).closest("dl");
+				var dataLayer = parseInt(parentdl.attr("data-layer")) + 1;
+				if(dataLayer > 5) {
+					//ND.msgbox.show("部门层级最多限制5层!", 2);
+					return false;
+				}
+				$('div.node').draggable('disable');
+				var delcls = parentdl.attr("data-nodeClass");
+				var parentId = parentdl.attr("data-id");
+				var nodedom = $(nodehtml);
+				var nodeId = "newnode" + new Date().getTime();
+				nodedom.addClass(nodeId);
+				nodedom.children("dl").attr("data-nodeClass", nodeId);
+				nodedom.find(".nd-department-font").html("");
+				//target li
+				var delclsli = $("#org").find("." + delcls);
+				if(delclsli.children("ul").length <= 0) {
+					delclsli.append("<ul></ul>");
+				}
+				var dataOrder = 1;
+
+				var last = delclsli.children("ul").find("li:last");
+				try {
+					if(last.children("dl").attr("data-order") != null) dataOrder = parseInt(last.children("dl").attr("data-order")) + 1;
+				} catch(e) {}
+				nodedomdl = nodedom.children("dl");
+				//modify layer
+				nodedomdl.attr("data-layer", dataLayer);
+				//modify order
+				nodedomdl.attr("data-order", dataOrder);
+				//modify parentId
+				nodedomdl.attr("data-parentId", parentId);
+				delclsli.children("ul").append(nodedom);
+				nodedom.attr("newly", true);
+
+				$(opts.chartElement).children(".jOrgChart").remove();
+				$this.jOrgChart(opts);
+				$(opts.chartElement).children(".jOrgChart").find("." + nodeId).find('.nd-department-font').click();
+				modifyItem = true;
+				modify = 1;
+				addItemSign = true;
+				e.stopPropagation();
+			});
+			//delete Node
+			$nodeDiv.find('.nd-node-minus').click(function(e) {
+				delNode = $(this);
+				if(modify == 0) {
+					var class1 = $(".node-ui-text").closest("dl").attr("data-nodeclass");
+					var delcls = $(this).closest("dl").attr("data-nodeclass");
+					if(addItemSign && class1 == delcls) {
+						ND.msgbox.hide();
+						var delcls = delNode.closest("dl").attr("data-nodeClass");
+						//delete node and it's children node,identification delete as true
+						$("#org").find("." + delcls).attr("delete", true);
+						$("#org").find("." + delcls).addClass("deleteNode");
+						$("#org").find("." + delcls).find("li").attr("delete", true);
+						$("#org").find("." + delcls).find("li").addClass("deleteNode");
+						$(opts.chartElement).children(".jOrgChart").remove();
+						$this.jOrgChart(opts);
+						addItemSign = false;
+						modify = 1;
+					} else {
+						$(".node-ui-text").focus();
+						return false;
+					}
+				} else {
+					var depName = $nodeDiv.find(".nd-department-font").html();
+					confirm("确认要删除" + depName + " 部门吗？(同时也会删除该部门下所有子部门)所有被删除部门的成员将会自动移至未分配列表", function() {
+						var delcls = delNode.closest("dl").attr("data-nodeClass");
+						//delete node and it's children node,identification delete as true
+						$("#org").find("." + delcls).attr("delete", true);
+						$("#org").find("." + delcls).addClass("deleteNode");
+						$("#org").find("." + delcls).find("li").attr("delete", true);
+						$("#org").find("." + delcls).find("li").addClass("deleteNode");
+
+						$(opts.chartElement).children(".jOrgChart").remove();
+						$this.jOrgChart(opts);
+					}, null, null, 360, 170);
+				}
+				//$(this).closest("table").closest("tbody").children("tr").first().nextAll().remove();
+				modifyItem = true;
+				e.stopPropagation();
+			});
+			$nodeDiv.hover(function() {
+				$(this).find("dt").addClass("zuzhijiagou-hover");
+				$nodeDiv.find(".nd-node-handle").show();
+			}, function() {
+				$(this).find("dt").removeClass("zuzhijiagou-hover");
+				$nodeDiv.find(".nd-node-handle").hide();
+			});
+			//modify Node
+			$nodeDiv.find('.nd-department-font').click(function(ex) {
+				var nodefont = $(this);
+				//is check now,so non trigger event 
+				if($(this).children(".node-ui-text").length > 0) return;
+				//remenber old val
+				var nodefontdl = nodefont.closest("dl");
+				var layer = nodefontdl.attr("data-layer");
+				if(layer <= 0) {
+					return;
+				}
+				//状态改变
+				if(modify == 0) {
+					$(".node-ui-text").focus();
+					return false;
+				}
+				var nodefontText = nodefont.text();
+				var nodextext = $('<input class="node-ui-text" maxlength="50"/>');
+				nodextext.val(nodefontText);
+				nodefont.html(nodextext);
+				nodextext.focus();
+				$('div.node').draggable('disable');
+				modify = 0;
+				nodextext.select();
+				$(document).keyup(function(e) {
+					var val = nodextext.val();
+					if(e && e.keyCode == 13) {
+						if($.trim(val) == "") {
+							//reduction old val 
+							//ND.msgbox.show("部门名称不能为空!", 2);
+							nodextext.val(nodefontText);
+							nodextext.focus();
+							return;
+						}
+						nodextext.blur();
+					}
+				});
+				nodextext.blur(function(event) {
+					var val = $(this).val();
+					if($.trim(val) == "") {
+						//reduction old val 
+						//ND.msgbox.show("部门名称不能为空!", 2);
+						nodextext.val(nodefontText);
+						modify = 0;
+						nodextext.focus();
+						return;
+					}
+					var repeat = false;
+					var delcls = nodefontdl.attr("data-nodeClass");
+					//is repeat return false
+					$.each($("#org").find("." + delcls).closest("ul").children("li:not(." + delcls + ")").not(".deleteNode").children("dl").find(".nd-department-font"), function(i, v) {
+						if($.trim($(this).html()) == $.trim(val)) {
+							repeat = true;
+							return false;
+						}
+					});
+					if(repeat) {
+						//reduction old val 
+						//ND.msgbox.show("同级部门不能重复!", 2);
+						$(this).val(nodefontText);
+						modify = 0;
+						nodextext.focus();
+						return;
+					}
+					var delcls = $(this).closest("dl").attr("data-nodeClass");
+					//set permanent val
+					$("#org").find("." + delcls).find(".nd-department-font").text(val);
+
+					$("#org").find("." + delcls).attr("modify", true);
+					nodefont.text(val);
+					$('div.node').draggable('enable');
+					modifyItem = true;
+					addItemSign = false;
+					modify = 1;
+					ex.stopPropagation();
+				});
+			});
+			return $this;
+		};
+	})(jQuery)
+});

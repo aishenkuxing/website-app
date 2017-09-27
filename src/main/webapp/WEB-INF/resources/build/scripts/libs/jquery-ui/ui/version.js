@@ -1,5 +1,17 @@
-!function(e){"function"==typeof define&&define.amd?
-// AMD. Register as an anonymous module.
-define(["jquery"],e):
-// Browser globals
-e(jQuery)}(function($){return $.ui=$.ui||{},$.ui.version="@VERSION"});
+( function( factory ) {
+	if ( typeof define === "function" && define.amd ) {
+
+		// AMD. Register as an anonymous module.
+		define( [ "jquery" ], factory );
+	} else {
+
+		// Browser globals
+		factory( jQuery );
+	}
+} ( function( $ ) {
+
+$.ui = $.ui || {};
+
+return $.ui.version = "@VERSION";
+
+} ) );

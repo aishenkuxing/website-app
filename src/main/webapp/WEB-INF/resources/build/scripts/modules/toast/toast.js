@@ -1,1 +1,18 @@
-define(["require","jquery","text!modules/toast/toast.html","css!modules/toast/toast.css"],function(require,$,t){return{show:function(e,s){var o=$(t);o.find(".ql_message").html(e),$("body").append(o);var a=100,n=setInterval(function(){a<=0&&(o.remove(),clearInterval(n)),o.css({opacity:a/10}),a--},20)}}});
+define(['require','jquery','text!modules/toast/toast.html','css!modules/toast/toast.css'],function(require,$,text){
+	return {
+		show:function(val,opt){
+			var dom = $(text);
+			dom.find(".ql_message").html(val);
+			$("body").append(dom);
+			var life = 100;
+			var toastLife = setInterval(function(){
+				if(life<=0){
+					dom.remove();
+					clearInterval(toastLife);
+				}
+				dom.css({"opacity" : life/10})
+				life--;
+			},20);
+		}
+	}
+})

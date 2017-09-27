@@ -6,19 +6,69 @@
  * Released under the MIT license.
  * http://jquery.org/license
  */
+
 //>>label: Shake Effect
 //>>group: Effects
 //>>description: Shakes an element horizontally or vertically n times.
 //>>docs: http://api.jqueryui.com/shake-effect/
 //>>demos: http://jqueryui.com/effect/
-!function(e){"function"==typeof define&&define.amd?
-// AMD. Register as an anonymous module.
-define(["jquery","../version","../effect"],e):
-// Browser globals
-e(jQuery)}(function($){return $.effects.define("shake",function(e,n){var t=1,i=$(this),a=e.direction||"left",f=e.distance||20,u=e.times||3,s=2*u+1,o=Math.round(e.duration/s),c="up"===a||"down"===a?"top":"left",r="up"===a||"left"===a,d={},m={},g={},h=i.queue().length;
-// Shakes
-for($.effects.createPlaceholder(i),
-// Animation
-d[c]=(r?"-=":"+=")+f,m[c]=(r?"+=":"-=")+2*f,g[c]=(r?"-=":"+=")+2*f,
-// Animate
-i.animate(d,o,e.easing);t<u;t++)i.animate(m,o,e.easing).animate(g,o,e.easing);i.animate(m,o,e.easing).animate(d,o/2,e.easing).queue(n),$.effects.unshift(i,h,s+1)})});
+
+( function( factory ) {
+	if ( typeof define === "function" && define.amd ) {
+
+		// AMD. Register as an anonymous module.
+		define( [
+			"jquery",
+			"../version",
+			"../effect"
+		], factory );
+	} else {
+
+		// Browser globals
+		factory( jQuery );
+	}
+}( function( $ ) {
+
+return $.effects.define( "shake", function( options, done ) {
+
+	var i = 1,
+		element = $( this ),
+		direction = options.direction || "left",
+		distance = options.distance || 20,
+		times = options.times || 3,
+		anims = times * 2 + 1,
+		speed = Math.round( options.duration / anims ),
+		ref = ( direction === "up" || direction === "down" ) ? "top" : "left",
+		positiveMotion = ( direction === "up" || direction === "left" ),
+		animation = {},
+		animation1 = {},
+		animation2 = {},
+
+		queuelen = element.queue().length;
+
+	$.effects.createPlaceholder( element );
+
+	// Animation
+	animation[ ref ] = ( positiveMotion ? "-=" : "+=" ) + distance;
+	animation1[ ref ] = ( positiveMotion ? "+=" : "-=" ) + distance * 2;
+	animation2[ ref ] = ( positiveMotion ? "-=" : "+=" ) + distance * 2;
+
+	// Animate
+	element.animate( animation, speed, options.easing );
+
+	// Shakes
+	for ( ; i < times; i++ ) {
+		element
+			.animate( animation1, speed, options.easing )
+			.animate( animation2, speed, options.easing );
+	}
+
+	element
+		.animate( animation1, speed, options.easing )
+		.animate( animation, speed / 2, options.easing )
+		.queue( done );
+
+	$.effects.unshift( element, queuelen, anims + 1 );
+} );
+
+} ) );

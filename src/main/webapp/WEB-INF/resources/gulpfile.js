@@ -3,6 +3,8 @@ const gulp = require('gulp'),
 	fs = require('fs'),
 	stream = require('stream'),
 	del = require('del'),
+	path = require('path'),
+	pump = require('pump'),
 	scombiner = require('stream-combiner2');
 
 const gutil = require('gulp-util'),
@@ -18,32 +20,19 @@ const gutil = require('gulp-util'),
 	gclean = require('gulp-clean'), 					//gulp 清除文件
 	runSequence = require('run-sequence'), 				//独立运行任务
 	plumber = require('gulp-plumber'); 					//防止管道中断
+	
+var config = JSON.parse(fs.readFileSync('./require.moduler.json'));  // require 打包模块 配置 满足amd范式
 
 var __dev = 'dev', 												//开发环境目录
 	__devFile = __dev + '/**/*.*', 								//开发环境目录文件
 	__devFileJs = __dev + '/**/*.js', 							//开发环境目录Js文件
-	__devFileCss = __dev + '/**/*.css'; 						//开发环境目录Css文件
+	__devFileCss = __dev + '/**/*.css', 						//开发环境目录Css文件
 	__devFileImage = __dev + '/**/*.{bmp,jpg,jpeg,png,gif}'; 	//开发环境目录Css文件
 
 var __build = 'build',
 	__buildFile = __build + '/**/*.*'; 							//生成环境目录文件
 
-function getBuildFilePath(path) {
-	var pathArr = path.split(__dev);
-	if(pathArr.length > 1) {
-		return __build + pathArr[1];
-	}
-}
 
-/**
- * 压缩js使用默认参数值
- */
-var _defUglify = {
-	//mangle: true,//类型：Boolean 默认：true 是否修改变量名
-	mangle: { except: ['require', 'exports', 'module', '$'] }, //排除混淆关键字
-	compress: true, //类型：Boolean 默认：true 是否完全压缩
-	preserveComments: 'all' //保留所有注释
-};
 /**
  * 压缩css使用默认参数值
  */
@@ -54,11 +43,14 @@ var _defCssmin = {
 	keepSpecialComments: '*'
 	//保留所有特殊前缀 当你用autoprefixer生成的浏览器前缀，如果不加这个参数，有可能将会删除你的部分前缀
 };
+
 //清理目录
 gulp.task('clear', function() {
 	return gulp.src(__buildFile)
 		.pipe(gclean());
 });
+
+/**
 /**
  * 合并任务
  */
@@ -66,7 +58,7 @@ gulp.task('concat', function() {
 	gulp.src(__dev + '/plugs/bootstrap/**/*.js')
 		.pipe(plumber())
 		.pipe(gconcat('all.js')) //合并后的文件名
-		.pipe(guglify(_defUglify))
+		.pipe(guglify())   //压缩文件
 		.pipe(gulp.dest(__build + '/plugs/bootstrap'));
 });
 /**
@@ -112,6 +104,13 @@ var watcher = gulp.watch(__devFile);
 gulp.task('main', function(cb) {
 	return runSequence(['images', 'jsmin', 'cssmin', 'concat']);
 });
+
+function getBuildFilePath(_path) {
+	var pathArr = _path.split(__dev);
+	if(pathArr.length > 1) {
+		return __build + pathArr[1];
+	}
+}
 
 gulp.task('watch-file-change', function(cb) {
 	watcher.on('change', function(event) {
