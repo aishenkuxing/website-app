@@ -28,17 +28,17 @@
 				contentType: "application/json",
 				type:"post",
 				url:"/api/myblob/saveLink",
-				data:$.toJSON(_linkmsg);
+				data:$.toJSON(_linkmsg),
 				async:true,
 				success:function(res){
 					if(res.code == 1){
 						alert("提交成功！我会尽快给您答复。");
 					}else{
-						
+						alert("提交失败");
 					}
 				},
 				error:function(res){
-					
+					alert("提交失败");
 				}
 			});
 		});
@@ -54,7 +54,6 @@
 	<div class="agileits_agile_about">
 		<h3>联系我</h3>
 		<div class="agileits_agile_about_mail">
-			<form action="#" method="post">
 				<div class="col-md-6 agileits_agile_about_mail_left"  style="margin-bottom: 1em;">
 					<label class="label-text">您的姓名</label><input type="text" id="name" name="Name" placeholder="姓名" required style="margin-bottom: 1em;">
 					<label class="label-text">您的项目</label><input type="text" id="project" name="项目" placeholder="项目" required>
@@ -67,7 +66,6 @@
 				<label>给我留言</label>
 				<textarea name="Message" id="message" placeholder="给我留言..." required></textarea>
 				<input type="submit" id="submit" value="提交">
-			</form>
 		</div>
 	</div>
 	<div class="w3agile_map">

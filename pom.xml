@@ -331,6 +331,7 @@
 			<artifactId>httpclient-osgi</artifactId>
 			<version>${httpclient-version}</version>
 		</dependency>
+		
 		<!-- mybatis版本添加 -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
