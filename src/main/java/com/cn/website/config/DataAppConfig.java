@@ -241,12 +241,14 @@ public class DataAppConfig {
 			registDataSource(dataSources);
 			//dataSources.put("userDataSource", userDataSource());
 		}
+		{
+			//Lucence 缓存dataSources
+			
+			
+		}
 		DynamicDataSource dynamicDataSource = new DynamicDataSource();
 		dynamicDataSource.setTargetDataSources(dataSources);
 		dynamicDataSource.setDefaultTargetDataSource(dataSource);
 		return dynamicDataSource;
 	}
-	
-	
-
 }

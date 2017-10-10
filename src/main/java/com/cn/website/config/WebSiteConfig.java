@@ -32,6 +32,7 @@ import org.springframework.web.servlet.view.velocity.VelocityViewResolver;
 import org.springframework.web.util.UrlPathHelper;
 
 import com.cn.website.config.hibernateconfig.HibernateConfig;
+import com.cn.website.config.mybatisconfig.MyBatisConfig;
 import com.cn.website.interceptor.WebSiteLocaleInterceptor;
 import com.cn.website.interceptor.WebSiteSecurityInterceptor;
 /**
@@ -47,7 +48,7 @@ import com.cn.website.namegenerator.WebSiteNameGenerator;
 @EnableWebMvc
 @ActiveProfiles("dev")
 @EnableTransactionManagement
-@Import({TestAppConfig.class,DataAppConfig.class,HibernateConfig.class,SwaggerConfig.class})
+@Import({TestAppConfig.class,DataAppConfig.class,HibernateConfig.class,SwaggerConfig.class,MyBatisConfig.class})
 @ComponentScan(basePackages = {
 	"com.cn.website.aware",
 	"com.cn.website.*.controller",

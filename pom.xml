@@ -368,11 +368,29 @@
 		    <artifactId>cglib-nodep</artifactId>
 		    <version>3.2.5</version>
 		</dependency>
+		
 		<dependency>
 		    <groupId>org.apache.lucene</groupId>
 		    <artifactId>lucene-core</artifactId>
-		    <version>6.6.0</version>
+		    <version>7.0.0</version>
 		</dependency>
+		<dependency>
+		    <groupId>org.apache.lucene</groupId>
+		    <artifactId>lucene-queryparser</artifactId>
+		    <version>7.0.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.lucene</groupId>
+		    <artifactId>lucene-analyzers-common</artifactId>
+		    <version>7.0.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.lucene/lucene-demo -->
+	<dependency>
+	    <groupId>org.apache.lucene</groupId>
+	    <artifactId>lucene-demo</artifactId>
+	    <version>7.0.1</version>
+	</dependency>
+		
 	</dependencies>
 	<build>
 		<plugins>

@@ -3,6 +3,9 @@ package com.cn.website.entry;
 import javax.persistence.Entity;
 
 import org.hibernate.type.*;
+import org.jets3t.service.security.EncryptionUtil;
+
+import com.cn.website.common.util.EncrypAES;
 
 @Entity(name = "test")
 public class Test<T> {
@@ -24,7 +27,7 @@ public class Test<T> {
    
    public static void main(String[] args) {
 //	   Test tt=new Test<String>();
-//	   System.out.println(tt.getClassName());
+//	   System.out.println(tt.getClassName())
    }
    
    //private MaterializedClob materializedClob;
