@@ -163,12 +163,12 @@ public class WebSiteConfig extends WebMvcConfigurerAdapter {
 	  * */
 	@Bean(name="internalResourceViewResolver")
     public InternalResourceViewResolver internalResourceViewResolver() {
-		//正式拦截地址
+		// 正式拦截地址
         InternalResourceViewResolver internalResourceViewResolver = new InternalResourceViewResolver();
         internalResourceViewResolver.setPrefix(env.getProperty("application.page"));
         internalResourceViewResolver.setSuffix(".jsp");
         internalResourceViewResolver.setOrder(1);
-        //添加jstl标签包
+        // 添加jstl标签包
         internalResourceViewResolver.setViewClass(JstlView.class);
         return internalResourceViewResolver;
     }
@@ -185,8 +185,8 @@ public class WebSiteConfig extends WebMvcConfigurerAdapter {
 		viewResolver.setSuffix(".vm");
 //		viewResolver.setCache(true);
 //		viewResolver.setCacheLimit(AbstractCachingViewResolver.DEFAULT_CACHE_LIMIT);
-		//velocityView 配置方案
-		//viewResolver.setToolboxConfigLocation("/WEB-INF/toolbox.xml");
+		// velocityView 配置方案
+		// viewResolver.setToolboxConfigLocation("/WEB-INF/toolbox.xml");
 		return viewResolver;
 	}
 

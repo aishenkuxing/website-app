@@ -4,25 +4,33 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
 
 public class MyThead   {
 	public static List list = Collections.synchronizedList(new ArrayList<Map<String,Object>>());;
 
 	class MyThread1 extends Thread {
+		
 		@Override
-        public void run() {
-            for (int i = 1; i <= 10; i++) {
-            	list.add("线程1第" + i + "次执行！");
-            }
+        public   void run() {
+			synchronized (MyThead.class) {
+				  for (int i = 1; i <= 10; i++) {
+		            	list.add("线程1第" + i + "次执行！");
+		            }
+			}
+			
         }
     }
 	
 	 class MyRunnable implements Runnable {
+		    
 		 	@Override
-	        public void run() {
-	            for (int i = 1; i <= 10; i++) {
-	            	list.add("线程2第" + i + "次执行！");
-	            }
+	        public synchronized void run() {
+		 		synchronized (MyThead.class) {
+		            for (int i = 1; i <= 10; i++) {
+		            	list.add("线程2第" + i + "次执行！");
+		            }
+		 		}
 	        }
 	    }
 
@@ -33,7 +41,7 @@ public class MyThead   {
         t1.start();
         t2.start();
         for (int i = 1; i <= 20; i++) {
-        	list.add("主线线" + i + "次执行！");
+        	//list.add("主线线" + i + "次执行！");
             if (i > 2)
                 try {
                     // t1线程合并到主线程中，主线程停止执行过程，转而执行t1线程，直到t1执行完毕后继续。

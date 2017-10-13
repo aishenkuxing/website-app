@@ -20,6 +20,11 @@ public  class WebSiteAnnotation {
 		PermissionType role() default PermissionType.NULL;
 	}
 	
+	/**
+	 * 额皮质权限web api加载入口 权限设置
+	 * @author Administrator
+	 *
+	 */
 	@Documented
 	@Inherited
 	@Target({ElementType.METHOD, ElementType.TYPE})

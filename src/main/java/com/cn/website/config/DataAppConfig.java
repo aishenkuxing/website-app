@@ -243,8 +243,6 @@ public class DataAppConfig {
 		}
 		{
 			//Lucence 缓存dataSources
-			
-			
 		}
 		DynamicDataSource dynamicDataSource = new DynamicDataSource();
 		dynamicDataSource.setTargetDataSources(dataSources);

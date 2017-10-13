@@ -390,6 +390,12 @@
 	    <artifactId>lucene-demo</artifactId>
 	    <version>7.0.1</version>
 	</dependency>
+	
+	<dependency>
+	    <groupId>org.mybatis</groupId>
+	    <artifactId>mybatis</artifactId>
+	    <version>3.4.5</version>
+	</dependency>
 		
 	</dependencies>
 	<build>
