@@ -1,5 +1,9 @@
 'use strict';
-require('./env/checked-engines')();  //判断当前的环境是否符合 前端开发环境
+//前端开发环境
+require('./configs/gulp-engines-bat')();  //判断当前的环境是否符合 
+require ('./configs/gulp-watch-bat')();
+require ('./configs/gulp-bulid-bat')();
+
 
 const gulp = require('gulp'),
 	fs = require('fs'),
@@ -21,18 +25,23 @@ const gutil = require('gulp-util'),
 	grename = require('gulp-rename'), 					//gulp 重名文件
 	gclean = require('gulp-clean'), 					//gulp 清除文件
 	runSequence = require('run-sequence'), 				//独立运行任务
+	gulpSequence  = require('gulp-sequence'),			//同步执行任务
 	plumber = require('gulp-plumber'); 					//防止管道中断
-	
-var config = JSON.parse(fs.readFileSync('./require.moduler.json'));  // require 打包模块 配置 满足amd范式
 
-var __dev = 'dev', 												//开发环境目录
+
+
+
+var config = JSON.parse(fs.readFileSync('./require.moduler.json'));  // require 打包模块 配置 满足amd范式
+var resources = JSON.parse(fs.readFileSync('./require.moduler.json')); // require 打包模块 配置 满足amd范式
+
+var __dev = resources.dev, 										//开发环境目录
 	__devFile = __dev + '/**/*.*', 								//开发环境目录文件
 	__devFileJs = __dev + '/**/*.js', 							//开发环境目录Js文件
 	__devFileCss = __dev + '/**/*.css', 						//开发环境目录Css文件
 	__devFileImage = __dev + '/**/*.{bmp,jpg,jpeg,png,gif}'; 	//开发环境目录Css文件
 
-var __build = 'build',
-	__buildFile = __build + '/**/*.*'; 							//生成环境目录文件
+var __build = resources.build,
+	__buildFile = resources.build + '/**/*.*'; 							//生成环境目录文件
 
 
 /**
@@ -45,12 +54,6 @@ var _defCssmin = {
 	keepSpecialComments: '*'
 	//保留所有特殊前缀 当你用autoprefixer生成的浏览器前缀，如果不加这个参数，有可能将会删除你的部分前缀
 };
-
-//清理目录
-gulp.task('clear', function() {
-	return gulp.src(__buildFile)
-		.pipe(gclean());
-});
 
 /**
 /**
@@ -146,4 +149,14 @@ gulp.task('watch-file-change', function(cb) {
 
 gulp.task('default', function(c) {
 	return runSequence('clear', ['images', 'jsmin', 'cssmin', 'concat'], 'watch-file-change');
+});
+
+//清理目录
+gulp.task('clear', function() {
+	return gulp.src(__buildFile)
+		.pipe(gclean());
+});
+
+gulp.task('start-dev', function(cb) {
+	return runSequence('clear',['build-bat','watch-bat']);
 });

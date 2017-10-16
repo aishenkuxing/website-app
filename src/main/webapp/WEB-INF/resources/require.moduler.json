@@ -1,7 +1,13 @@
 {
 	"baseUrl": "",
-	"paths": {
-		
-	},
-	"exclude": ["i18nForControl", "jquery", "avalon"]
+	"paths": {},
+	"dev": "./dev",
+	"build": "./build",
+	"libDir": "/scripts/libs",
+	"templatesDir": "/scripts/_templates",
+	"exclude": [
+		"i18nForControl",
+		"jquery",
+		"avalon"
+	]
 }

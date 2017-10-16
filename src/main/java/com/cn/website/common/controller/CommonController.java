@@ -22,4 +22,9 @@ public class CommonController {
 	public void login(){
 		System.out.println("login");
 	}
+	
+	@RequestMapping("demo")
+	public void demo(){
+		System.out.println("demo");
+	}
 }

@@ -10,6 +10,7 @@ requirejs.config({
 	  "text": "libs/combo/text",
 	  "css": "libs/combo/css",
       "jquery": "libs/jquery",
-      "jquery.json.min":"libs/jquery.json.min"
+      "jquery.json.min":"libs/jquery.json.min",
+      "templates/widgets":"_templates/widgets"
     }
 });
